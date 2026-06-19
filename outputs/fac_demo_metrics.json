@@ -1,0 +1,148 @@
+{
+  "target": "any_finding",
+  "train_years": [
+    2019,
+    2020,
+    2021,
+    2022
+  ],
+  "test_year": 2023,
+  "target_recall": 0.8,
+  "test_base_rate": 0.282,
+  "models": [
+    {
+      "name": "Logistic regression (profile)",
+      "auc": 0.6066567766056224,
+      "ap": 0.37053462380160823,
+      "brier": 0.2418607591516675,
+      "precision": 0.3187433815743029,
+      "recall": 0.800531914893617,
+      "f1": 0.4559454683160818,
+      "threshold": 0.4479703975775082,
+      "tp": 903,
+      "fp": 1930,
+      "fn": 225,
+      "tn": 942
+    },
+    {
+      "name": "Gradient boosting (profile)",
+      "auc": 0.5979038873743061,
+      "ap": 0.35428298400807323,
+      "brier": 0.19777399984535787,
+      "precision": 0.31799016163035837,
+      "recall": 0.8023049645390071,
+      "f1": 0.4554604932058379,
+      "threshold": 0.22971998497912172,
+      "tp": 905,
+      "fp": 1941,
+      "fn": 223,
+      "tn": 931
+    },
+    {
+      "name": "Logistic regression (enriched)",
+      "auc": 0.6310757200853434,
+      "ap": 0.40293399460572876,
+      "brier": 0.24149215179824027,
+      "precision": 0.328125,
+      "recall": 0.800531914893617,
+      "f1": 0.4654639175257732,
+      "threshold": 0.45230506790801184,
+      "tp": 903,
+      "fp": 1849,
+      "fn": 225,
+      "tn": 1023
+    },
+    {
+      "name": "Gradient boosting (enriched)",
+      "auc": 0.6231250864299966,
+      "ap": 0.38823065508567234,
+      "brier": 0.19468239808162827,
+      "precision": 0.321896002829855,
+      "recall": 0.8067375886524822,
+      "f1": 0.46017699115044247,
+      "threshold": 0.22993136302182002,
+      "tp": 910,
+      "fp": 1917,
+      "fn": 218,
+      "tn": 955
+    }
+  ],
+  "best_model": {
+    "name": "Logistic regression (enriched)",
+    "auc": 0.6310757200853434,
+    "ap": 0.40293399460572876,
+    "brier": 0.24149215179824027,
+    "precision": 0.328125,
+    "recall": 0.800531914893617,
+    "f1": 0.4654639175257732,
+    "threshold": 0.45230506790801184,
+    "tp": 903,
+    "fp": 1849,
+    "fn": 225,
+    "tn": 1023
+  },
+  "top_features": [
+    {
+      "feature": "is_low_risk_auditee",
+      "importance": 0.05417407109361108,
+      "method": "permutation drop in ROC-AUC"
+    },
+    {
+      "feature": "total_amount_expended",
+      "importance": 0.03618009819682336,
+      "method": "permutation drop in ROC-AUC"
+    },
+    {
+      "feature": "prior_year_any_finding",
+      "importance": 0.013757398253373243,
+      "method": "permutation drop in ROC-AUC"
+    },
+    {
+      "feature": "n_programs",
+      "importance": 0.010646535731395346,
+      "method": "permutation drop in ROC-AUC"
+    },
+    {
+      "feature": "prior_year_findings",
+      "importance": 0.005910442009176398,
+      "method": "permutation drop in ROC-AUC"
+    },
+    {
+      "feature": "size_band",
+      "importance": 0.00031205473117802696,
+      "method": "permutation drop in ROC-AUC"
+    },
+    {
+      "feature": "entity_type",
+      "importance": 0.00027404868354768963,
+      "method": "permutation drop in ROC-AUC"
+    },
+    {
+      "feature": "cognizant_agency",
+      "importance": -0.000132770365376636,
+      "method": "permutation drop in ROC-AUC"
+    }
+  ],
+  "feature_sets": {
+    "profile_numeric": [
+      "total_amount_expended"
+    ],
+    "profile_categorical": [
+      "entity_type",
+      "size_band",
+      "is_low_risk_auditee"
+    ],
+    "enriched_numeric": [
+      "total_amount_expended",
+      "n_programs",
+      "prior_year_findings",
+      "prior_year_any_finding"
+    ],
+    "enriched_categorical": [
+      "entity_type",
+      "size_band",
+      "is_low_risk_auditee",
+      "cognizant_agency"
+    ]
+  }
+}
