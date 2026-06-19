@@ -7,671 +7,449 @@
   <style>
     :root {
       color-scheme: light;
-      --ink: #172033;
-      --muted: #5d6a7c;
-      --line: #d8dde7;
-      --panel: #ffffff;
-      --page: #f5f7fb;
-      --navy: #243b63;
-      --teal: #14746f;
-      --gold: #b7791f;
-      --rose: #b83254;
-      --green: #2f855a;
-      --blue-soft: #dfe9f7;
-      --teal-soft: #d8f0ed;
-      --gold-soft: #faedd2;
-      --rose-soft: #f8dfe6;
-      --shadow: 0 12px 30px rgba(23, 32, 51, 0.08);
+      --ink: #172033; --muted: #5d6a7c; --line: #d8dde7;
+      --panel: #fff; --page: #f5f7fb;
+      --navy: #243b63; --teal: #14746f; --gold: #b7791f;
+      --rose: #b83254; --blue-soft: #dfe9f7;
+      --teal-soft: #d8f0ed; --gold-soft: #faedd2;
+      --shadow: 0 12px 30px rgba(23,32,51,.08);
     }
-
-    * { box-sizing: border-box; }
-
-    body {
-      margin: 0;
-      background: var(--page);
-      color: var(--ink);
-      font-family: Arial, Helvetica, sans-serif;
-      line-height: 1.45;
-    }
-
-    header {
-      background: #ffffff;
-      border-bottom: 1px solid var(--line);
-    }
-
-    .shell {
-      width: min(1180px, calc(100% - 32px));
-      margin: 0 auto;
-    }
-
-    .topbar {
-      min-height: 88px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 20px;
-    }
-
-    h1 {
-      margin: 0;
-      font-size: 28px;
-      line-height: 1.1;
-      letter-spacing: 0;
-    }
-
-    .subtitle {
-      margin: 8px 0 0;
-      color: var(--muted);
-      max-width: 760px;
-      font-size: 15px;
-    }
-
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      min-height: 32px;
-      padding: 6px 10px;
-      border: 1px solid var(--line);
-      background: var(--blue-soft);
-      color: var(--navy);
-      border-radius: 6px;
-      font-size: 13px;
-      white-space: nowrap;
-    }
-
-    main {
-      padding: 22px 0 40px;
-    }
-
-    .controls {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      margin-bottom: 18px;
-    }
-
-    .tabs {
-      display: inline-grid;
-      grid-template-columns: repeat(2, minmax(120px, 1fr));
-      border: 1px solid var(--line);
-      background: #ffffff;
-      border-radius: 8px;
-      overflow: hidden;
-    }
-
-    .tabs button {
-      min-height: 40px;
-      border: 0;
-      border-right: 1px solid var(--line);
-      background: #ffffff;
-      color: var(--muted);
-      font: inherit;
-      font-weight: 700;
-      cursor: pointer;
-    }
-
-    .tabs button:last-child {
-      border-right: 0;
-    }
-
-    .tabs button[aria-selected="true"] {
-      background: var(--navy);
-      color: #ffffff;
-    }
-
-    .note {
-      color: var(--muted);
-      font-size: 13px;
-      max-width: 620px;
-      text-align: right;
-    }
-
-    .metric-grid {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 14px;
-      margin-bottom: 18px;
-    }
-
-    .metric {
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      box-shadow: var(--shadow);
-      padding: 16px;
-      min-height: 116px;
-    }
-
-    .metric .label {
-      margin: 0 0 10px;
-      color: var(--muted);
-      font-size: 12px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0;
-    }
-
-    .metric .value {
-      margin: 0;
-      font-size: 31px;
-      line-height: 1;
-      font-weight: 800;
-    }
-
-    .metric .detail {
-      margin: 9px 0 0;
-      color: var(--muted);
-      font-size: 13px;
-    }
-
-    .layout {
-      display: grid;
-      grid-template-columns: minmax(0, 1.45fr) minmax(320px, 0.85fr);
-      gap: 18px;
-    }
-
-    .panel {
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      box-shadow: var(--shadow);
-      padding: 18px;
-      min-width: 0;
-    }
-
-    .panel h2 {
-      margin: 0 0 4px;
-      font-size: 18px;
-      letter-spacing: 0;
-    }
-
-    .panel .caption {
-      margin: 0 0 16px;
-      color: var(--muted);
-      font-size: 13px;
-    }
-
-    .chart {
-      width: 100%;
-      min-height: 300px;
-    }
-
-    .bar-row {
-      display: grid;
-      grid-template-columns: minmax(150px, 210px) minmax(120px, 1fr) 58px;
-      align-items: center;
-      gap: 10px;
-      min-height: 34px;
-      margin: 8px 0;
-      font-size: 13px;
-    }
-
-    .bar-label {
-      color: var(--ink);
-      overflow-wrap: anywhere;
-    }
-
-    .track {
-      height: 13px;
-      background: #edf1f6;
-      border-radius: 4px;
-      overflow: hidden;
-      position: relative;
-    }
-
-    .bar {
-      height: 100%;
-      min-width: 2px;
-      border-radius: 4px;
-      background: var(--teal);
-    }
-
-    .bar.negative {
-      background: var(--rose);
-    }
-
-    .bar-value {
-      text-align: right;
-      color: var(--muted);
-      font-variant-numeric: tabular-nums;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 13px;
-    }
-
-    th, td {
-      padding: 10px 8px;
-      border-bottom: 1px solid var(--line);
-      text-align: right;
-      vertical-align: middle;
-      font-variant-numeric: tabular-nums;
-    }
-
-    th:first-child,
-    td:first-child {
-      text-align: left;
-      font-variant-numeric: normal;
-    }
-
-    th {
-      color: var(--muted);
-      font-size: 12px;
-      text-transform: uppercase;
-      letter-spacing: 0;
-    }
-
-    tr.best {
-      background: #f1fbf7;
-    }
-
-    .model-name {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      min-width: 190px;
-    }
-
-    .pill {
-      display: inline-flex;
-      align-items: center;
-      min-height: 22px;
-      padding: 3px 7px;
-      border-radius: 6px;
-      background: var(--teal-soft);
-      color: var(--teal);
-      font-size: 11px;
-      font-weight: 700;
-      white-space: nowrap;
-    }
-
-    .two-up {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 18px;
-      margin-top: 18px;
-    }
-
-    .matrix {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-top: 12px;
-    }
-
-    .cell {
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      padding: 14px;
-      min-height: 92px;
-      background: #ffffff;
-    }
-
-    .cell.good { background: #e8f5ef; }
-    .cell.warn { background: #fff4dd; }
-    .cell.bad { background: #fde8ee; }
-    .cell.neutral { background: #eef4fb; }
-
-    .cell .count {
-      display: block;
-      font-size: 28px;
-      line-height: 1;
-      font-weight: 800;
-      margin-bottom: 8px;
-    }
-
-    .cell .name {
-      color: var(--muted);
-      font-size: 12px;
-      font-weight: 700;
-      text-transform: uppercase;
-    }
-
-    .callout {
-      border-left: 4px solid var(--gold);
-      background: var(--gold-soft);
-      padding: 12px 14px;
-      border-radius: 6px;
-      color: #4d3614;
-      font-size: 13px;
-    }
-
-    .footer {
-      margin-top: 18px;
-      color: var(--muted);
-      font-size: 12px;
-    }
-
-    @media (max-width: 900px) {
-      .topbar,
-      .controls {
-        align-items: flex-start;
-        flex-direction: column;
-      }
-
-      .note {
-        text-align: left;
-      }
-
-      .metric-grid,
-      .layout,
-      .two-up {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    @media (max-width: 560px) {
-      .shell {
-        width: min(100% - 20px, 1180px);
-      }
-
-      h1 {
-        font-size: 23px;
-      }
-
-      .metric .value {
-        font-size: 27px;
-      }
-
-      .bar-row {
-        grid-template-columns: 1fr;
-        gap: 5px;
-      }
-
-      .bar-value {
-        text-align: left;
-      }
-
-      th, td {
-        padding: 8px 5px;
-        font-size: 12px;
-      }
+    *{box-sizing:border-box;}
+    body{margin:0;background:var(--page);color:var(--ink);font-family:Arial,Helvetica,sans-serif;line-height:1.45;}
+    .shell{width:min(1180px,calc(100% - 32px));margin:0 auto;}
+    header{background:#fff;border-bottom:1px solid var(--line);}
+    .topbar{min-height:88px;display:flex;align-items:center;justify-content:space-between;gap:20px;}
+    h1{margin:0;font-size:28px;line-height:1.1;}
+    .subtitle{margin:8px 0 0;color:var(--muted);max-width:760px;font-size:15px;}
+    .badge{display:inline-flex;align-items:center;min-height:32px;padding:6px 10px;border:1px solid var(--line);background:var(--blue-soft);color:var(--navy);border-radius:6px;font-size:13px;white-space:nowrap;}
+    .about-wrap{padding:14px 0 0;}
+    .about{background:#fff;border:1px solid var(--line);border-radius:8px;box-shadow:var(--shadow);overflow:hidden;}
+    .about summary{display:flex;align-items:center;gap:8px;padding:12px 16px;font-weight:700;font-size:14px;cursor:pointer;list-style:none;user-select:none;color:var(--navy);}
+    .about summary::-webkit-details-marker{display:none;}
+    .about summary::before{content:"\25B6";font-size:10px;transition:transform .15s;}
+    .about[open] summary::before{transform:rotate(90deg);}
+    .about-body{padding:0 16px 16px;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;border-top:1px solid var(--line);}
+    .about-card{padding:12px 14px;background:var(--page);border-radius:6px;font-size:13px;}
+    .about-card strong{display:block;margin-bottom:5px;color:var(--navy);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;}
+    main{padding:22px 0 40px;}
+    .controls{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:18px;}
+    .tabs{display:inline-grid;grid-template-columns:repeat(2,minmax(120px,1fr));border:1px solid var(--line);background:#fff;border-radius:8px;overflow:hidden;}
+    .tabs button{min-height:40px;border:0;border-right:1px solid var(--line);background:#fff;color:var(--muted);font:inherit;font-weight:700;cursor:pointer;}
+    .tabs button:last-child{border-right:0;}
+    .tabs button[aria-selected="true"]{background:var(--navy);color:#fff;}
+    .note{color:var(--muted);font-size:13px;max-width:620px;text-align:right;}
+    .metric-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-bottom:18px;}
+    .metric{background:var(--panel);border:1px solid var(--line);border-radius:8px;box-shadow:var(--shadow);padding:16px;min-height:116px;}
+    .metric .label{margin:0 0 10px;color:var(--muted);font-size:12px;font-weight:700;text-transform:uppercase;display:flex;align-items:center;gap:5px;}
+    .metric .value{margin:0;font-size:31px;line-height:1;font-weight:800;}
+    .metric .detail{margin:9px 0 0;color:var(--muted);font-size:13px;}
+    .tip{display:inline-flex;align-items:center;justify-content:center;width:15px;height:15px;border-radius:50%;background:var(--blue-soft);color:var(--navy);font-size:9px;font-weight:700;font-style:normal;cursor:help;position:relative;flex-shrink:0;}
+    .tip::after{content:attr(data-tip);position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);background:#1a2540;color:#fff;font-size:12px;font-weight:400;padding:8px 11px;border-radius:6px;white-space:normal;width:230px;display:none;z-index:100;line-height:1.45;text-transform:none;letter-spacing:0;pointer-events:none;}
+    .tip:hover::after{display:block;}
+    .rq{display:inline-flex;align-items:center;padding:2px 7px;border-radius:4px;font-size:10px;font-weight:700;letter-spacing:.03em;vertical-align:middle;margin-right:4px;white-space:nowrap;}
+    .rq1{background:var(--teal);color:#fff;}
+    .rq2{background:var(--navy);color:#fff;}
+    .rq3{background:var(--gold-soft);color:#7a4e0a;border:1px solid #ddb56a;}
+    .layout{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(300px,.85fr);gap:18px;}
+    .panel{background:var(--panel);border:1px solid var(--line);border-radius:8px;box-shadow:var(--shadow);padding:18px;min-width:0;}
+    .panel h2{margin:0 0 4px;font-size:18px;}
+    .panel .cap{margin:0 0 14px;color:var(--muted);font-size:13px;}
+    .chart{width:100%;min-height:280px;}
+    .bar-row{display:grid;grid-template-columns:minmax(150px,210px) minmax(100px,1fr) 62px;align-items:center;gap:10px;min-height:32px;margin:7px 0;font-size:13px;}
+    .bar-lbl{color:var(--ink);overflow-wrap:anywhere;}
+    .track{height:13px;background:#edf1f6;border-radius:4px;overflow:hidden;}
+    .bar{height:100%;min-width:2px;border-radius:4px;background:var(--teal);}
+    .bar.neg{background:var(--rose);}
+    .bar-val{text-align:right;color:var(--muted);font-variant-numeric:tabular-nums;font-size:12px;}
+    table{width:100%;border-collapse:collapse;font-size:13px;}
+    th,td{padding:10px 8px;border-bottom:1px solid var(--line);text-align:right;vertical-align:middle;font-variant-numeric:tabular-nums;}
+    th:first-child,td:first-child{text-align:left;font-variant-numeric:normal;}
+    th{color:var(--muted);font-size:12px;text-transform:uppercase;}
+    th abbr{text-decoration:underline dotted;cursor:help;}
+    tr.best{background:#f1fbf7;}
+    .mname{display:flex;align-items:center;gap:8px;min-width:180px;}
+    .pill{display:inline-flex;align-items:center;min-height:22px;padding:3px 7px;border-radius:6px;background:var(--teal-soft);color:var(--teal);font-size:11px;font-weight:700;}
+    .two-up{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:18px;}
+    .full{margin-top:18px;}
+    .mx-col-heads{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding-left:22px;margin-bottom:4px;}
+    .mx-col-head{text-align:center;font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;}
+    .mx-row{display:flex;gap:10px;margin-bottom:10px;align-items:stretch;}
+    .mx-row-head{display:flex;align-items:center;justify-content:flex-end;font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;writing-mode:vertical-rl;transform:rotate(180deg);white-space:nowrap;width:14px;flex-shrink:0;}
+    .mx-cells{display:grid;grid-template-columns:1fr 1fr;gap:10px;flex:1;}
+    .cell{border:1px solid var(--line);border-radius:8px;padding:12px 14px;min-height:80px;}
+    .cell.good{background:#e8f5ef;} .cell.warn{background:#fff4dd;}
+    .cell.bad{background:#fde8ee;} .cell.neutral{background:#eef4fb;}
+    .cell .cnt{display:block;font-size:26px;line-height:1;font-weight:800;margin-bottom:5px;}
+    .cell .lbl{color:var(--muted);font-size:11px;font-weight:700;text-transform:uppercase;}
+    .cal-head{display:grid;grid-template-columns:40px 1fr 1fr 50px;gap:8px;margin-bottom:2px;}
+    .cal-hlbl{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;text-align:center;}
+    .cal-row{display:grid;grid-template-columns:40px 1fr 1fr 50px;align-items:center;gap:8px;min-height:27px;margin:5px 0;}
+    .cal-bin{color:var(--muted);text-align:right;font-size:11px;}
+    .cal-note{margin-top:10px;font-size:12px;color:var(--muted);line-height:1.5;}
+    .cal-bar-wrap{height:14px;background:#edf1f6;border-radius:4px;overflow:hidden;}
+    .cal-bar{height:100%;border-radius:4px;}
+    .cal-bar.pred{background:var(--navy);}
+    .cal-bar.act{background:var(--teal);}
+    .shap-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;margin-top:4px;}
+    .shap-card{background:var(--page);border:1px solid var(--line);border-radius:8px;padding:14px 16px;}
+    .shap-rank{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;margin-bottom:6px;}
+    .shap-score{font-size:22px;font-weight:800;margin-bottom:10px;}
+    .shap-driver{display:flex;align-items:center;gap:8px;margin:5px 0;font-size:13px;}
+    .shap-feat{flex:1;overflow-wrap:anywhere;}
+    .shap-val{font-variant-numeric:tabular-nums;font-weight:700;white-space:nowrap;}
+    .shap-val.pos{color:var(--teal);}
+    .shap-val.neg{color:var(--rose);}
+    .interp{background:var(--blue-soft);border:1px solid #b8ccec;border-radius:8px;padding:16px 18px;font-size:14px;line-height:1.6;}
+    .interp strong{color:var(--navy);}
+    @media(max-width:700px){
+      .metric-grid{grid-template-columns:1fr 1fr;}
+      .layout{grid-template-columns:1fr;}
+      .two-up{grid-template-columns:1fr;}
     }
   </style>
 </head>
 <body>
-  <header>
-    <div class="shell topbar">
+<header>
+  <div class="shell">
+    <div class="topbar">
       <div>
-        <h1>FAC Findings Prediction Dashboard</h1>
-        <p class="subtitle">Committee-review view of model performance, feature importance, and triage outcomes for the DBA Federal Audit Clearinghouse research project.</p>
+        <h1>FAC Single-Audit Findings Prediction</h1>
+        <p class="subtitle">Logistic regression and gradient boosting trained on Federal Audit Clearinghouse data to screen organizations at risk of audit findings before results close.</p>
       </div>
-      <span class="badge" id="datasetBadge">Pilot FAC run</span>
+      <span class="badge">DBA Research &mdash; Forward-Year Holdout</span>
     </div>
-  </header>
+    <div class="about-wrap">
+      <details class="about">
+        <summary>About this project</summary>
+        <div class="about-body">
+          <div class="about-card"><strong>What is FAC?</strong>Single Audit data from the Federal Audit Clearinghouse covers every organization spending &ge;$750K in federal funds per year. Findings indicate financial, compliance, or internal-control weaknesses.</div>
+          <div class="about-card"><strong>Why forward-year testing?</strong>A random split lets the model “see the future.” We train on earlier years and test on the most recent year &mdash; the honest analogue of scoring an organization before its audit closes. TimeSeriesSplit cross-validation gives the same guarantee over multiple folds.</div>
+          <div class="about-card"><strong>What is SHAP?</strong>SHapley Additive exPlanations assign each feature a contribution to each prediction. Global importance = mean |SHAP| across all test audits. Per-audit cards show exactly why the model flagged each organization.</div>
+          <div class="about-card"><strong>Feature sets</strong>PROFILE uses organization type, spending size band, and low-risk status. ENRICHED adds number of federal programs, prior-year finding count, and cognizant oversight agency.</div>
+          <div class="about-card"><strong>Datasets shown</strong>PILOT = one page of real FAC data (2022 train / 2023 test, ~5K rows). DEMO = synthetic data mirroring FAC schema (4 training years, 4K rows/year) with known ground truth for methods validation.</div>
+          <div class="about-card"><strong>Class imbalance</strong>Findings are rare in real FAC data (~10% base rate). Models use class_weight=‘balanced’ by default. The threshold is tuned to hit 80% recall; precision is the cost paid for that coverage.</div>
+        </div>
+      </details>
+    </div>
+  </div>
+</header>
 
-  <main class="shell">
-    <section class="controls" aria-label="Dataset controls">
-      <div class="tabs" role="tablist" aria-label="Dataset">
-        <button id="pilotTab" type="button" role="tab" aria-selected="true" data-dataset="pilot">FAC Pilot</button>
-        <button id="demoTab" type="button" role="tab" aria-selected="false" data-dataset="demo">Synthetic Demo</button>
+<main>
+  <div class="shell">
+    <div class="controls">
+      <div class="tabs" role="tablist">
+        <button role="tab" aria-selected="true" data-dataset="pilot">Pilot (real FAC)</button>
+        <button role="tab" aria-selected="false" data-dataset="demo">Demo (synthetic)</button>
       </div>
-      <p class="note" id="datasetNote">The FAC pilot uses the included 2022-2023 bounded pull. It is a walkthrough artifact, not final dissertation evidence.</p>
-    </section>
+      <p class="note" id="note"></p>
+    </div>
 
-    <section class="metric-grid" aria-label="Headline metrics">
-      <article class="metric">
-        <p class="label">Best Model</p>
-        <p class="value" id="bestModelShort">Logistic</p>
-        <p class="detail" id="bestModelFull">Logistic regression (enriched)</p>
-      </article>
-      <article class="metric">
-        <p class="label">ROC-AUC</p>
-        <p class="value" id="aucValue">0.609</p>
-        <p class="detail">ranking performance on held-out year</p>
-      </article>
-      <article class="metric">
-        <p class="label">Recall Target</p>
-        <p class="value" id="recallValue">80.0%</p>
-        <p class="detail" id="precisionDetail">precision 11.4%</p>
-      </article>
-      <article class="metric">
-        <p class="label">Finding Base Rate</p>
-        <p class="value" id="baseRateValue">10.0%</p>
-        <p class="detail" id="splitDetail">train 2022, test 2023</p>
-      </article>
-    </section>
+    <div class="metric-grid" id="metrics"></div>
 
-    <section class="layout">
-      <article class="panel">
-        <h2>Model Comparison</h2>
-        <p class="caption">Profile-only models use organization characteristics; enriched models add program count and prior-year history.</p>
-        <div class="chart" id="modelBars" aria-label="Model comparison bar chart"></div>
-      </article>
+    <div class="layout">
+      <div class="panel" id="feat-panel">
+        <h2><span class="rq rq1">RQ1</span> Feature Importance <em style="font-size:13px;font-weight:400;color:var(--muted)">(mean |SHAP|)</em></h2>
+        <p class="cap">Which characteristics most strongly push predictions toward “finding”?</p>
+        <div class="chart" id="feat-chart"></div>
+      </div>
+      <div class="panel" id="model-panel">
+        <h2><span class="rq rq2">RQ2</span> Model Comparison</h2>
+        <p class="cap">ROC-AUC on held-out test year (all models, 80% recall threshold).</p>
+        <div class="chart" id="model-chart"></div>
+      </div>
+    </div>
 
-      <article class="panel">
-        <h2>Feature Importance</h2>
-        <p class="caption">Permutation importance as change in ROC-AUC on the held-out year.</p>
-        <div id="featureBars"></div>
-      </article>
-    </section>
+    <div class="two-up">
+      <div class="panel">
+        <h2><span class="rq rq2">RQ2</span> Performance Table</h2>
+        <p class="cap">Best model highlighted. Threshold tuned to &ge;80% recall.</p>
+        <div id="perf-table"></div>
+      </div>
+      <div class="panel">
+        <h2><span class="rq rq2">RQ2</span> Triage Confusion Matrix</h2>
+        <p class="cap">Best model at recall target threshold &mdash; test year only.</p>
+        <div id="cm"></div>
+      </div>
+    </div>
 
-    <section class="two-up">
-      <article class="panel">
-        <h2>Performance Table</h2>
-        <p class="caption">Best model row is highlighted.</p>
-        <div style="overflow-x:auto;">
-          <table>
-            <thead>
-              <tr>
-                <th>Model</th>
-                <th>AUC</th>
-                <th>PR-AUC</th>
-                <th>Recall</th>
-                <th>Precision</th>
-                <th>F1</th>
-                <th>Brier</th>
-              </tr>
-            </thead>
-            <tbody id="modelTable"></tbody>
-          </table>
-        </div>
-      </article>
+    <div class="two-up">
+      <div class="panel">
+        <h2><span class="rq rq3">RQ3</span> Profile vs Enriched</h2>
+        <p class="cap">Does adding program history beat the profile-only baseline?</p>
+        <div id="rq3"></div>
+      </div>
+      <div class="panel">
+        <h2><span class="rq rq2">RQ2</span> Calibration</h2>
+        <p class="cap">Predicted probability vs actual finding rate (5 quantile bins).</p>
+        <div id="cal"></div>
+      </div>
+    </div>
 
-      <article class="panel">
-        <h2>Triage Confusion Matrix</h2>
-        <p class="caption" id="matrixCaption">Best model at the selected recall target.</p>
-        <div class="matrix">
-          <div class="cell good"><span class="count" id="tpCount">401</span><span class="name">True positives</span></div>
-          <div class="cell warn"><span class="count" id="fpCount">3122</span><span class="name">False positives</span></div>
-          <div class="cell bad"><span class="count" id="fnCount">100</span><span class="name">False negatives</span></div>
-          <div class="cell neutral"><span class="count" id="tnCount">1377</span><span class="name">True negatives</span></div>
-        </div>
-      </article>
-    </section>
+    <div class="full panel">
+      <h2><span class="rq rq1">RQ1</span> Per-Audit SHAP Explanations <em style="font-size:13px;font-weight:400;color:var(--muted)">(top 5 highest-risk audits)</em></h2>
+      <p class="cap">Why did the model flag each organization? Top 3 drivers per audit.</p>
+      <div class="shap-grid" id="shap-audits"></div>
+    </div>
 
-    <section class="two-up">
-      <article class="panel">
-        <h2>Research Question Signal</h2>
-        <p class="caption">Does the enriched feature set improve ROC-AUC over the profile baseline?</p>
-        <div id="rq3Bars"></div>
-      </article>
+    <div class="full panel" style="margin-top:18px;">
+      <h2>Interpretation</h2>
+      <div class="interp" id="interp"></div>
+    </div>
+  </div>
+</main>
 
-      <article class="panel">
-        <h2>Committee Interpretation</h2>
-        <p class="caption">Short readout for a methods or proposal discussion.</p>
-        <div class="callout" id="interpretation"></div>
-        <p class="footer">The model supports risk triage and research evaluation. It should not replace professional audit judgment.</p>
-      </article>
-    </section>
-  </main>
+<script>
+const datasets = {
+  pilot: {
+    label: "Pilot (real FAC, 2022 train / 2023 test)",
+    note: "One page of real FAC data pulled via the public API. Single training year limits CV.",
+    data: {"target":"any_finding","train_years":[2022],"test_year":2023,"target_recall":0.8,"test_base_rate":0.1002,"smote_used":false,"cv":{"lr_profile":{"mean":null,"std":null},"gbm_enriched":{"mean":null,"std":null}},"models":[{"name":"Logistic regression (profile)","auc":0.6061269326206444,"ap":0.14741387313800866,"brier":0.19080361906922488,"precision":0.1172171879567378,"recall":0.8003992015968064,"f1":0.20448750637429883,"threshold":0.30738697164651463,"tp":401,"fp":3020,"fn":100,"tn":1479},{"name":"Gradient boosting (profile)","auc":0.5993239127435284,"ap":0.14547022808485122,"brier":0.09104969561472415,"precision":0.11230684326710817,"recall":0.812375249500998,"f1":0.19733333333333333,"threshold":0.0809406912189757,"tp":407,"fp":3217,"fn":94,"tn":1282},{"name":"Logistic regression (enriched)","auc":0.6093607406214466,"ap":0.1478604722806052,"brier":0.19096169647290245,"precision":0.11382344592676696,"recall":0.8003992015968064,"f1":0.1993041749502982,"threshold":0.29787858617145085,"tp":401,"fp":3122,"fn":100,"tn":1377},{"name":"Gradient boosting (enriched)","auc":0.5772724388963792,"ap":0.13035989758382172,"brier":0.09486412615134202,"precision":0.11151079136690648,"recall":0.8043912175648703,"f1":0.19586877278250303,"threshold":0.06709865480130141,"tp":403,"fp":3211,"fn":98,"tn":1288}],"best_model":{"name":"Logistic regression (enriched)","auc":0.6093607406214466,"ap":0.1478604722806052,"brier":0.19096169647290245,"precision":0.11382344592676696,"recall":0.8003992015968064,"f1":0.1993041749502982,"threshold":0.29787858617145085,"tp":401,"fp":3122,"fn":100,"tn":1377},"top_features":[{"feature":"cat__is_low_risk_auditee_False","importance":0.2988751933227759,"method":"mean_abs_shap"},{"feature":"cat__is_low_risk_auditee_True","importance":0.21747708408174427,"method":"mean_abs_shap"},{"feature":"cat__entity_type_local","importance":0.15498492288943072,"method":"mean_abs_shap"},{"feature":"cat__size_band_1-10M","importance":0.1156702420348872,"method":"mean_abs_shap"},{"feature":"num__n_programs","importance":0.09899495601102411,"method":"mean_abs_shap"},{"feature":"cat__size_band_10-100M","importance":0.08940307882903768,"method":"mean_abs_shap"},{"feature":"cat__size_band_<1M","importance":0.062298442250119546,"method":"mean_abs_shap"},{"feature":"num__prior_year_any_finding","importance":0.027531728047364878,"method":"mean_abs_shap"},{"feature":"cat__entity_type_state","importance":0.022936725105307327,"method":"mean_abs_shap"},{"feature":"cat__entity_type_higher-ed","importance":0.020870217066993275,"method":"mean_abs_shap"}],"shap_per_audit":[{"rank":1,"risk_score":0.999997599519119,"drivers":[{"feature":"num__prior_year_findings","shap":10.686464671738067},{"feature":"num__prior_year_any_finding","shap":1.9044445756630697},{"feature":"cat__is_low_risk_auditee_False","shap":0.4738905154576349}]},{"rank":2,"risk_score":0.9928366306862064,"drivers":[{"feature":"num__n_programs","shap":5.176928383954607},{"feature":"cat__size_band_10-100M","shap":0.2364535277150046},{"feature":"cat__is_low_risk_auditee_False","shap":-0.21290733303169107}]},{"rank":3,"risk_score":0.9696120022734318,"drivers":[{"feature":"num__n_programs","shap":3.14334259901172},{"feature":"cat__cognizant_agency_93","shap":0.3318360344806022},{"feature":"cat__size_band_10-100M","shap":0.2364535277150046}]},{"rank":4,"risk_score":0.9589918240162475,"drivers":[{"feature":"num__n_programs","shap":3.956776912988875},{"feature":"cat__is_low_risk_auditee_False","shap":-0.21290733303169107},{"feature":"cat__is_low_risk_auditee_True","shap":-0.15492241243769825}]},{"rank":5,"risk_score":0.956642650404675,"drivers":[{"feature":"num__n_programs","shap":3.8986744619905065},{"feature":"cat__is_low_risk_auditee_False","shap":-0.21290733303169107},{"feature":"cat__is_low_risk_auditee_True","shap":-0.15492241243769825}]}],"calibration":[{"mean_pred":0.2427237692548919,"frac_pos":0.053},{"mean_pred":0.2971532094802087,"frac_pos":0.087},{"mean_pred":0.3471793965311973,"frac_pos":0.102},{"mean_pred":0.49437640636182484,"frac_pos":0.105},{"mean_pred":0.6181380708482108,"frac_pos":0.154}],"feature_sets":{"profile_numeric":["total_amount_expended"],"profile_categorical":["entity_type","size_band","is_low_risk_auditee"],"enriched_numeric":["total_amount_expended","n_programs","prior_year_findings","prior_year_any_finding"],"enriched_categorical":["entity_type","size_band","is_low_risk_auditee","cognizant_agency"]}}
+  },
+  demo: {
+    label: "Demo (synthetic, 4-year train / 2023 test)",
+    note: "Synthetic data mirrors the FAC schema exactly. 4 training years enable TimeSeriesSplit CV.",
+    data: {"target":"any_finding","train_years":[2019,2020,2021,2022],"test_year":2023,"target_recall":0.8,"test_base_rate":0.282,"smote_used":false,"cv":{"lr_profile":{"mean":0.5905902582996054,"std":0.007077064018650148},"gbm_enriched":{"mean":0.5891802535885162,"std":0.010177246890457932}},"models":[{"name":"Logistic regression (profile)","auc":0.6066567766056224,"ap":0.37053462380160823,"brier":0.24186075915166375,"precision":0.3187433815743029,"recall":0.800531914893617,"f1":0.4559454683160818,"threshold":0.4479703975774966,"tp":903,"fp":1930,"fn":225,"tn":942},{"name":"Gradient boosting (profile)","auc":0.5992639251071732,"ap":0.35431375183225394,"brier":0.19769642907478752,"precision":0.3182939725061685,"recall":0.800531914893617,"f1":0.4554854981084489,"threshold":0.2317117035257609,"tp":903,"fp":1934,"fn":225,"tn":938},{"name":"Logistic regression (enriched)","auc":0.6310757200853434,"ap":0.40293399460572876,"brier":0.24149215179823308,"precision":0.328125,"recall":0.800531914893617,"f1":0.4654639175257732,"threshold":0.4523050679079784,"tp":903,"fp":1849,"fn":225,"tn":1023},{"name":"Gradient boosting (enriched)","auc":0.6196333145656769,"ap":0.3841471697386253,"brier":0.19511232887327332,"precision":0.3188865398167724,"recall":0.8023049645390071,"f1":0.4563792233988906,"threshold":0.22935858720853936,"tp":905,"fp":1933,"fn":223,"tn":939}],"best_model":{"name":"Logistic regression (enriched)","auc":0.6310757200853434,"ap":0.40293399460572876,"brier":0.24149215179823308,"precision":0.328125,"recall":0.800531914893617,"f1":0.4654639175257732,"threshold":0.4523050679079784,"tp":903,"fp":1849,"fn":225,"tn":1023},"top_features":[{"feature":"cat__is_low_risk_auditee_True","importance":0.1386853159330218,"method":"mean_abs_shap"},{"feature":"num__prior_year_any_finding","importance":0.134871122178602,"method":"mean_abs_shap"},{"feature":"cat__is_low_risk_auditee_False","importance":0.09614461187746476,"method":"mean_abs_shap"},{"feature":"cat__size_band_1-10M","importance":0.0939291244273972,"method":"mean_abs_shap"},{"feature":"num__n_programs","importance":0.08415131358499404,"method":"mean_abs_shap"},{"feature":"cat__size_band_10-100M","importance":0.05447574190112994,"method":"mean_abs_shap"},{"feature":"cat__size_band_<1M","importance":0.04788062887414011,"method":"mean_abs_shap"},{"feature":"num__prior_year_findings","importance":0.03244119706568703,"method":"mean_abs_shap"},{"feature":"cat__cognizant_agency_84","importance":0.030602077039351236,"method":"mean_abs_shap"},{"feature":"num__total_amount_expended","importance":0.028495447521576272,"method":"mean_abs_shap"}],"shap_per_audit":[{"rank":1,"risk_score":0.7742539744463137,"drivers":[{"feature":"cat__size_band_10-100M","shap":0.33974275729650016},{"feature":"num__total_amount_expended","shap":0.25692541859682966},{"feature":"num__prior_year_any_finding","shap":0.25444786460372704}]},{"rank":2,"risk_score":0.7740039403621043,"drivers":[{"feature":"cat__size_band_10-100M","shap":0.33974275729650016},{"feature":"num__prior_year_any_finding","shap":0.25444786460372704},{"feature":"num__prior_year_findings","shap":0.14342326379511938}]},{"rank":3,"risk_score":0.7696884413167397,"drivers":[{"feature":"num__total_amount_expended","shap":0.4202975751657794},{"feature":"cat__size_band_10-100M","shap":0.33974275729650016},{"feature":"num__prior_year_any_finding","shap":0.25444786460372704}]},{"rank":4,"risk_score":0.7665569927945205,"drivers":[{"feature":"num__total_amount_expended","shap":0.49818406611990124},{"feature":"cat__size_band_10-100M","shap":0.33974275729650016},{"feature":"num__prior_year_any_finding","shap":0.25444786460372704}]},{"rank":5,"risk_score":0.757997696415665,"drivers":[{"feature":"cat__size_band_10-100M","shap":0.33974275729650016},{"feature":"num__prior_year_any_finding","shap":0.25444786460372704},{"feature":"num__total_amount_expended","shap":0.20526973356598222}]}],"calibration":[{"mean_pred":0.37134529770347074,"frac_pos":0.1625},{"mean_pred":0.449228251231626,"frac_pos":0.22625},{"mean_pred":0.5024753457904725,"frac_pos":0.27},{"mean_pred":0.5513290745590426,"frac_pos":0.32625},{"mean_pred":0.6324340307103266,"frac_pos":0.425}],"feature_sets":{"profile_numeric":["total_amount_expended"],"profile_categorical":["entity_type","size_band","is_low_risk_auditee"],"enriched_numeric":["total_amount_expended","n_programs","prior_year_findings","prior_year_any_finding"],"enriched_categorical":["entity_type","size_band","is_low_risk_auditee","cognizant_agency"]}}
+  }
+};
 
-  <script>
-    const datasets = {
-      pilot: {
-        label: "Pilot FAC run",
-        note: "The FAC pilot uses the included 2022-2023 bounded pull. It is a walkthrough artifact, not final dissertation evidence.",
-        data: {
-          "target": "any_finding",
-          "train_years": [2022],
-          "test_year": 2023,
-          "target_recall": 0.8,
-          "test_base_rate": 0.1002,
-          "models": [
-            {"name":"Logistic regression (profile)","auc":0.6061269326206444,"ap":0.14741387313800866,"brier":0.19080361906922474,"precision":0.1172171879567378,"recall":0.8003992015968064,"f1":0.20448750637429883,"threshold":0.30738697164651313,"tp":401,"fp":3020,"fn":100,"tn":1479},
-            {"name":"Gradient boosting (profile)","auc":0.5963924562521989,"ap":0.14263079599245512,"brier":0.09130292614062087,"precision":0.1106523534269199,"recall":0.8023952095808383,"f1":0.19448476052249636,"threshold":0.07751964395754103,"tp":402,"fp":3231,"fn":99,"tn":1268},
-            {"name":"Logistic regression (enriched)","auc":0.6093607406214466,"ap":0.1478604722806052,"brier":0.19096169647290448,"precision":0.11382344592676696,"recall":0.8003992015968064,"f1":0.1993041749502982,"threshold":0.29787858617022434,"tp":401,"fp":3122,"fn":100,"tn":1377},
-            {"name":"Gradient boosting (enriched)","auc":0.5776941338483291,"ap":0.13381793920697732,"brier":0.09419926074880759,"precision":0.11248246844319776,"recall":0.8003992015968064,"f1":0.19724545007378258,"threshold":0.06947661796920784,"tp":401,"fp":3164,"fn":100,"tn":1335}
-          ],
-          "best_model": {"name":"Logistic regression (enriched)","auc":0.6093607406214466,"ap":0.1478604722806052,"brier":0.19096169647290448,"precision":0.11382344592676696,"recall":0.8003992015968064,"f1":0.1993041749502982,"threshold":0.29787858617022434,"tp":401,"fp":3122,"fn":100,"tn":1377},
-          "top_features": [
-            {"feature":"is_low_risk_auditee","importance":0.06323877029226721},
-            {"feature":"total_amount_expended","importance":0.00885168427315186},
-            {"feature":"size_band","importance":0.0008388701592148134},
-            {"feature":"entity_type","importance":0.0007065497810780086},
-            {"feature":"cognizant_agency","importance":0.0000051575000698939055},
-            {"feature":"prior_year_any_finding","importance":0},
-            {"feature":"prior_year_findings","importance":0},
-            {"feature":"n_programs","importance":-0.012641504055680569}
-          ]
-        }
-      },
-      demo: {
-        label: "Synthetic demo run",
-        note: "The synthetic demo is a reproducible no-key walkthrough that mirrors the analytic schema, useful before a full FAC pull.",
-        data: {
-          "target": "any_finding",
-          "train_years": [2019, 2020, 2021, 2022],
-          "test_year": 2023,
-          "target_recall": 0.8,
-          "test_base_rate": 0.282,
-          "models": [
-            {"name":"Logistic regression (profile)","auc":0.6066567766056224,"ap":0.37053462380160823,"brier":0.2418607591516675,"precision":0.3187433815743029,"recall":0.800531914893617,"f1":0.4559454683160818,"threshold":0.4479703975775082,"tp":903,"fp":1930,"fn":225,"tn":942},
-            {"name":"Gradient boosting (profile)","auc":0.5979038873743061,"ap":0.35428298400807323,"brier":0.19777399984535787,"precision":0.31799016163035837,"recall":0.8023049645390071,"f1":0.4554604932058379,"threshold":0.22971998497912172,"tp":905,"fp":1941,"fn":223,"tn":931},
-            {"name":"Logistic regression (enriched)","auc":0.6310757200853434,"ap":0.40293399460572876,"brier":0.24149215179824027,"precision":0.328125,"recall":0.800531914893617,"f1":0.4654639175257732,"threshold":0.45230506790801184,"tp":903,"fp":1849,"fn":225,"tn":1023},
-            {"name":"Gradient boosting (enriched)","auc":0.6231250864299966,"ap":0.38823065508567234,"brier":0.19468239808162827,"precision":0.321896002829855,"recall":0.8067375886524822,"f1":0.46017699115044247,"threshold":0.22993136302182002,"tp":910,"fp":1917,"fn":218,"tn":955}
-          ],
-          "best_model": {"name":"Logistic regression (enriched)","auc":0.6310757200853434,"ap":0.40293399460572876,"brier":0.24149215179824027,"precision":0.328125,"recall":0.800531914893617,"f1":0.4654639175257732,"threshold":0.45230506790801184,"tp":903,"fp":1849,"fn":225,"tn":1023},
-          "top_features": [
-            {"feature":"is_low_risk_auditee","importance":0.05417407109361108},
-            {"feature":"total_amount_expended","importance":0.03618009819682336},
-            {"feature":"prior_year_any_finding","importance":0.013757398253373243},
-            {"feature":"n_programs","importance":0.010646535731395346},
-            {"feature":"prior_year_findings","importance":0.005910442009176398},
-            {"feature":"size_band","importance":0.00031205473117802696},
-            {"feature":"entity_type","importance":0.00027404868354768963},
-            {"feature":"cognizant_agency","importance":-0.000132770365376636}
-          ]
-        }
-      }
-    };
+function pct(v){return(v*100).toFixed(1)+'%';}
+function fmt(v,d=3){return v==null?'&mdash;':v.toFixed(d);}
+function prettyFeature(raw){
+  return raw
+    .replace(/^(num__|cat__)/,'')
+    .replace(/_True$/,' = Yes')
+    .replace(/_False$/,' = No')
+    .replace(/_/g,' ');
+}
 
-    const pct = value => `${(value * 100).toFixed(1)}%`;
-    const dec = value => Number(value).toFixed(3);
-    const modelShort = name => name.includes("Logistic") ? "Logistic" : "Boosting";
-    const modelType = name => name.includes("enriched") ? "enriched" : "profile";
+function renderMetrics(sel, data){
+  const b = data.best_model;
+  const baseRate = data.test_base_rate;
+  const cvM = data.cv && data.cv.lr_profile && data.cv.lr_profile.mean;
+  document.getElementById('metrics').innerHTML = `
+    <div class="metric">
+      <p class="label"><span class="rq rq2">RQ2</span> ROC-AUC <i class="tip" data-tip="Area under the ROC curve. 0.5 = random, 1.0 = perfect. Measures rank discrimination.">i</i></p>
+      <p class="value">${fmt(b.auc)}</p>
+      <p class="detail">${b.name}</p>
+    </div>
+    <div class="metric">
+      <p class="label"><span class="rq rq2">RQ2</span> PR-AUC <i class="tip" data-tip="Area under the Precision-Recall curve. More informative than ROC-AUC when findings are rare.">i</i></p>
+      <p class="value">${fmt(b.ap)}</p>
+      <p class="detail">avg precision, best model</p>
+    </div>
+    <div class="metric">
+      <p class="label"><span class="rq rq2">RQ2</span> Recall @ 80% <i class="tip" data-tip="Fraction of true findings flagged. Threshold is tuned so the model catches at least 80% of findings.">i</i></p>
+      <p class="value">${pct(b.recall)}</p>
+      <p class="detail">precision ${pct(b.precision)}</p>
+    </div>
+    <div class="metric">
+      <p class="label">Base Rate <i class="tip" data-tip="Fraction of test-year audits that actually had a finding. A naive \"flag everyone\" rule achieves this precision.">i</i></p>
+      <p class="value">${pct(baseRate)}</p>
+      <p class="detail">test year finding rate</p>
+    </div>
+  `;
+}
 
-    function render(selected) {
-      const entry = datasets[selected];
-      const data = entry.data;
-      const best = data.best_model;
-      document.getElementById("datasetBadge").textContent = entry.label;
-      document.getElementById("datasetNote").textContent = entry.note;
-      document.getElementById("bestModelShort").textContent = modelShort(best.name);
-      document.getElementById("bestModelFull").textContent = best.name;
-      document.getElementById("aucValue").textContent = dec(best.auc);
-      document.getElementById("recallValue").textContent = pct(best.recall);
-      document.getElementById("precisionDetail").textContent = `precision ${pct(best.precision)} at threshold ${dec(best.threshold)}`;
-      document.getElementById("baseRateValue").textContent = pct(data.test_base_rate);
-      document.getElementById("splitDetail").textContent = `train ${data.train_years.join("-")}, test ${data.test_year}`;
-      document.getElementById("tpCount").textContent = best.tp.toLocaleString();
-      document.getElementById("fpCount").textContent = best.fp.toLocaleString();
-      document.getElementById("fnCount").textContent = best.fn.toLocaleString();
-      document.getElementById("tnCount").textContent = best.tn.toLocaleString();
-      document.getElementById("matrixCaption").textContent = `${best.name} at ${pct(data.target_recall)} target recall.`;
-      renderModelBars(data);
-      renderFeatureBars(data);
-      renderTable(data);
-      renderRq3(data);
-      renderInterpretation(selected, data);
-      for (const button of document.querySelectorAll(".tabs button")) {
-        button.setAttribute("aria-selected", String(button.dataset.dataset === selected));
-      }
-    }
+function renderFeatureChart(data){
+  const feats = (data.top_features||[]).slice(0,10);
+  if(!feats.length){document.getElementById('feat-chart').innerHTML='<p style="color:var(--muted)">No feature importance data.</p>';return;}
+  const maxV = Math.max(...feats.map(f=>f.importance));
+  document.getElementById('feat-chart').innerHTML = feats.map(f=>{
+    const w = maxV>0?(f.importance/maxV*100).toFixed(1):0;
+    return `<div class="bar-row">
+      <span class="bar-lbl">${prettyFeature(f.feature)}</span>
+      <div class="track"><div class="bar" style="width:${w}%"></div></div>
+      <span class="bar-val">${f.importance.toFixed(3)}</span>
+    </div>`;
+  }).join('');
+}
 
-    function renderModelBars(data) {
-      const max = Math.max(...data.models.map(m => m.auc));
-      const rows = data.models.map((model) => {
-        const width = Math.max(4, (model.auc / max) * 100);
-        const color = model.name.includes("enriched") ? "var(--teal)" : "var(--navy)";
-        return `<div class="bar-row">
-          <div class="bar-label">${model.name}</div>
-          <div class="track"><div class="bar" style="width:${width}%; background:${color};"></div></div>
-          <div class="bar-value">${dec(model.auc)}</div>
-        </div>`;
-      }).join("");
-      document.getElementById("modelBars").innerHTML = rows;
-    }
+function renderModelBars(data){
+  const models = data.models||[];
+  const best = data.best_model;
+  const maxAuc = Math.max(...models.map(m=>m.auc));
+  const cv = data.cv||{};
+  let cvNote = '';
+  if(cv.lr_profile&&cv.lr_profile.mean!=null){
+    cvNote = `<p style="font-size:12px;color:var(--muted);margin-top:10px">TimeSeriesSplit CV &mdash; LR profile: ${cv.lr_profile.mean.toFixed(3)} &plusmn; ${cv.lr_profile.std.toFixed(3)} &nbsp;|&nbsp; GBM enriched: ${cv.gbm_enriched.mean.toFixed(3)} &plusmn; ${cv.gbm_enriched.std.toFixed(3)}</p>`;
+  } else {
+    cvNote = `<p style="font-size:12px;color:var(--muted);margin-top:10px">CV not available (need &ge;2 training years for TimeSeriesSplit).</p>`;
+  }
+  document.getElementById('model-chart').innerHTML = models.map(m=>{
+    const w = maxAuc>0?(m.auc/maxAuc*100).toFixed(1):0;
+    const isBest = m.name===best.name;
+    return `<div class="bar-row">
+      <span class="bar-lbl">${m.name}${isBest?' <span class="pill">best</span>':''}</span>
+      <div class="track"><div class="bar" style="width:${w}%"></div></div>
+      <span class="bar-val">${m.auc.toFixed(3)}</span>
+    </div>`;
+  }).join('') + cvNote;
+}
 
-    function renderFeatureBars(data) {
-      const values = data.top_features.map(f => Math.abs(f.importance));
-      const max = Math.max(...values, 0.001);
-      const rows = data.top_features.map((feature) => {
-        const width = Math.max(2, Math.abs(feature.importance) / max * 100);
-        const negative = feature.importance < 0;
-        return `<div class="bar-row">
-          <div class="bar-label">${feature.feature}</div>
-          <div class="track"><div class="bar ${negative ? "negative" : ""}" style="width:${width}%;"></div></div>
-          <div class="bar-value">${feature.importance >= 0 ? "+" : ""}${feature.importance.toFixed(4)}</div>
-        </div>`;
-      }).join("");
-      document.getElementById("featureBars").innerHTML = rows;
-    }
+function renderPerfTable(data){
+  const models = data.models||[];
+  const best = data.best_model;
+  const rows = models.map(m=>{
+    const isBest = m.name===best.name;
+    return `<tr${isBest?' class="best"':''}>
+      <td><div class="mname">${m.name}${isBest?'<span class="pill">best</span>':''}</div></td>
+      <td>${m.auc.toFixed(3)}</td>
+      <td>${m.ap.toFixed(3)}</td>
+      <td>${m.brier.toFixed(3)}</td>
+      <td>${pct(m.precision)}</td>
+      <td>${pct(m.recall)}</td>
+      <td>${m.f1.toFixed(3)}</td>
+    </tr>`;
+  }).join('');
+  document.getElementById('perf-table').innerHTML = `<table>
+    <thead><tr>
+      <th>Model</th>
+      <th><abbr title="ROC Area Under Curve">ROC-AUC</abbr></th>
+      <th><abbr title="Average Precision (PR-AUC)">PR-AUC</abbr></th>
+      <th><abbr title="Brier score (lower is better)">Brier</abbr></th>
+      <th>Precision</th>
+      <th>Recall</th>
+      <th>F1</th>
+    </tr></thead>
+    <tbody>${rows}</tbody>
+  </table>`;
+}
 
-    function renderTable(data) {
-      const bestName = data.best_model.name;
-      document.getElementById("modelTable").innerHTML = data.models.map(model => {
-        const isBest = model.name === bestName;
-        return `<tr class="${isBest ? "best" : ""}">
-          <td><span class="model-name">${model.name}${isBest ? '<span class="pill">best</span>' : ""}</span></td>
-          <td>${dec(model.auc)}</td>
-          <td>${dec(model.ap)}</td>
-          <td>${pct(model.recall)}</td>
-          <td>${pct(model.precision)}</td>
-          <td>${dec(model.f1)}</td>
-          <td>${dec(model.brier)}</td>
-        </tr>`;
-      }).join("");
-    }
+function renderCM(data){
+  const b = data.best_model;
+  const tot = b.tp+b.fp+b.fn+b.tn;
+  document.getElementById('cm').innerHTML = `
+    <div class="mx-col-heads"><div class="mx-col-head">Pred +</div><div class="mx-col-head">Pred &minus;</div></div>
+    <div class="mx-row">
+      <div class="mx-row-head">Actual +</div>
+      <div class="mx-cells">
+        <div class="cell good"><span class="cnt">${b.tp.toLocaleString()}</span><span class="lbl">True Positive</span></div>
+        <div class="cell bad"><span class="cnt">${b.fn.toLocaleString()}</span><span class="lbl">False Negative</span></div>
+      </div>
+    </div>
+    <div class="mx-row">
+      <div class="mx-row-head">Actual &minus;</div>
+      <div class="mx-cells">
+        <div class="cell warn"><span class="cnt">${b.fp.toLocaleString()}</span><span class="lbl">False Positive</span></div>
+        <div class="cell neutral"><span class="cnt">${b.tn.toLocaleString()}</span><span class="lbl">True Negative</span></div>
+      </div>
+    </div>
+    <p style="font-size:12px;color:var(--muted);margin-top:8px">${tot.toLocaleString()} test-year audits total.</p>`;
+}
 
-    function renderRq3(data) {
-      const byType = {};
-      for (const model of data.models) {
-        const family = model.name.includes("Logistic") ? "Logistic regression" : "Gradient boosting";
-        const type = modelType(model.name);
-        byType[family] = byType[family] || {};
-        byType[family][type] = model.auc;
-      }
-      const rows = Object.entries(byType).map(([family, values]) => {
-        const delta = values.enriched - values.profile;
-        const width = Math.min(100, Math.abs(delta) / 0.04 * 100);
-        return `<div class="bar-row">
-          <div class="bar-label">${family}</div>
-          <div class="track"><div class="bar ${delta < 0 ? "negative" : ""}" style="width:${Math.max(2, width)}%;"></div></div>
-          <div class="bar-value">${delta >= 0 ? "+" : ""}${delta.toFixed(3)}</div>
-        </div>`;
-      }).join("");
-      document.getElementById("rq3Bars").innerHTML = rows;
-    }
+function renderRQ3(data){
+  const models = data.models||[];
+  const lrP = models.find(m=>m.name.includes('profile')&&m.name.includes('Logistic'));
+  const lrE = models.find(m=>m.name.includes('enriched')&&m.name.includes('Logistic'));
+  const gbP = models.find(m=>m.name.includes('profile')&&m.name.includes('boosting'));
+  const gbE = models.find(m=>m.name.includes('enriched')&&m.name.includes('boosting'));
+  function row(label,p,e){
+    if(!p||!e) return '';
+    const delta = e.auc-p.auc;
+    const sign = delta>=0?'+':'';
+    return `<div class="bar-row">
+      <span class="bar-lbl">${label}</span>
+      <div class="track" style="position:relative">
+        <div class="bar" style="width:${(p.auc/1*100).toFixed(1)}%;opacity:.45"></div>
+      </div>
+      <span class="bar-val">${p.auc.toFixed(3)} &rarr; ${e.auc.toFixed(3)} <span style="color:${delta>=0?'var(--teal)':'var(--rose)'}">(${sign}${delta.toFixed(3)})</span></span>
+    </div>`;
+  }
+  document.getElementById('rq3').innerHTML = row('Logistic regression',lrP,lrE)+row('Gradient boosting',gbP,gbE);
+}
 
-    function renderInterpretation(selected, data) {
-      const best = data.best_model;
-      const total = best.tp + best.fp + best.fn + best.tn;
-      const flagged = best.tp + best.fp;
-      const missed = best.fn;
-      const label = selected === "pilot" ? "In the bounded FAC pilot" : "In the synthetic demonstration";
-      document.getElementById("interpretation").innerHTML =
-        `${label}, the strongest model is <strong>${best.name}</strong>. It reaches <strong>${pct(best.recall)}</strong> recall on the held-out ${data.test_year} year, while flagging <strong>${flagged.toLocaleString()}</strong> of ${total.toLocaleString()} audits for review and missing <strong>${missed.toLocaleString()}</strong> findings. The strongest feature signal is <strong>${data.top_features[0].feature}</strong>.`;
-    }
+function renderCalibration(data){
+  const cal = data.calibration||[];
+  if(!cal.length){document.getElementById('cal').innerHTML='<p style="color:var(--muted)">No calibration data.</p>';return;}
+  const maxV = Math.max(...cal.flatMap(c=>[c.mean_pred,c.frac_pos]));
+  const head = `<div class="cal-head">
+    <div class="cal-hlbl">Bin</div>
+    <div class="cal-hlbl">Predicted</div>
+    <div class="cal-hlbl">Actual</div>
+    <div></div>
+  </div>`;
+  const rows = cal.map((c,i)=>{
+    const pw = maxV>0?(c.mean_pred/maxV*100).toFixed(1):0;
+    const aw = maxV>0?(c.frac_pos/maxV*100).toFixed(1):0;
+    return `<div class="cal-row">
+      <div class="cal-bin">Q${i+1}</div>
+      <div class="cal-bar-wrap"><div class="cal-bar pred" style="width:${pw}%"></div></div>
+      <div class="cal-bar-wrap"><div class="cal-bar act" style="width:${aw}%"></div></div>
+      <div style="font-size:11px;color:var(--muted)">${pct(c.frac_pos)}</div>
+    </div>`;
+  }).join('');
+  const note = `<div class="cal-note"><span style="display:inline-block;width:10px;height:10px;background:var(--navy);border-radius:2px;margin-right:4px"></span>Predicted &nbsp; <span style="display:inline-block;width:10px;height:10px;background:var(--teal);border-radius:2px;margin-right:4px"></span>Actual finding rate. Logistic regression tends to overestimate absolute probabilities with rare events; the threshold is tuned to correct for this.</div>`;
+  document.getElementById('cal').innerHTML = head+rows+note;
+}
 
-    for (const button of document.querySelectorAll(".tabs button")) {
-      button.addEventListener("click", () => render(button.dataset.dataset));
-    }
+function renderShapAudit(data){
+  const audits = data.shap_per_audit||[];
+  if(!audits.length){document.getElementById('shap-audits').innerHTML='<p style="color:var(--muted)">No per-audit SHAP data.</p>';return;}
+  document.getElementById('shap-audits').innerHTML = audits.map(a=>{
+    const drivers = (a.drivers||[]).map(d=>{
+      const cls = d.shap>=0?'pos':'neg';
+      return `<div class="shap-driver">
+        <span class="shap-feat">${prettyFeature(d.feature)}</span>
+        <span class="shap-val ${cls}">${d.shap>=0?'+':''}${d.shap.toFixed(3)}</span>
+      </div>`;
+    }).join('');
+    return `<div class="shap-card">
+      <div class="shap-rank">Rank #${a.rank} highest risk</div>
+      <div class="shap-score">${(a.risk_score*100).toFixed(1)}% risk score</div>
+      ${drivers}
+    </div>`;
+  }).join('');
+}
 
-    render("pilot");
-  </script>
+function renderInterpretation(sel, data){
+  const b = data.best_model;
+  const models = data.models||[];
+  const lrP = models.find(m=>m.name.includes('profile')&&m.name.includes('Logistic'));
+  const lrE = models.find(m=>m.name.includes('enriched')&&m.name.includes('Logistic'));
+  const feats = data.top_features||[];
+  const topFeat = feats.length?prettyFeature(feats[0].feature):'(unknown)';
+  const cv = data.cv||{};
+  const cvM = cv.lr_profile&&cv.lr_profile.mean;
+  const cal = data.calibration||[];
+  const calNote = cal.length?
+    `Calibration shows the model tends to overestimate absolute probabilities (predicted ${pct(cal[0].mean_pred)} vs actual ${pct(cal[0].frac_pos)} in the lowest-risk bin), which is expected with rare events; the 80%-recall threshold corrects for this operationally.`
+    :'';
+  const cvNote = cvM!=null?
+    `TimeSeriesSplit cross-validation (${data.train_years.length} folds) gives LR-profile ROC-AUC ${cvM.toFixed(3)} ± ${cv.lr_profile.std.toFixed(3)}, confirming the holdout result is not an artifact of a single split.`
+    :`CV was not run (only one training year available; TimeSeriesSplit requires ≥2).`;
+  const delta = lrP&&lrE?(lrE.auc-lrP.auc):null;
+  const enrichNote = delta!=null?
+    `<strong>RQ3</strong>: The enriched feature set (adding program count and prior-year finding history) ${delta>0.001?'improved':'did not meaningfully improve'} ROC-AUC vs the profile-only baseline (${lrP.auc.toFixed(3)} → ${lrE.auc.toFixed(3)}, Δ${delta>=0?'+':''}${delta.toFixed(3)}).`
+    :'';
+  document.getElementById('interp').innerHTML = `
+    <strong>RQ1</strong>: The strongest SHAP driver is <strong>${topFeat}</strong>. ${feats.length>1?`Second is <strong>${prettyFeature(feats[1].feature)}</strong> (mean |SHAP| ${feats[1].importance.toFixed(3)}).`:''}<br><br>
+    <strong>RQ2</strong>: Best model is <strong>${b.name}</strong> with ROC-AUC <strong>${b.auc.toFixed(3)}</strong> and PR-AUC <strong>${b.ap.toFixed(3)}</strong> on the ${data.test_year} holdout. At the 80%-recall threshold, precision is ${pct(b.precision)} &mdash; the model flags ${(b.tp+b.fp).toLocaleString()} organizations to catch ${b.tp.toLocaleString()} true findings (missing ${b.fn.toLocaleString()}). ${cvNote} ${calNote}<br><br>
+    ${enrichNote}
+  `;
+}
+
+function render(key){
+  const ds = datasets[key];
+  const data = ds.data;
+  document.getElementById('note').textContent = ds.note;
+  document.querySelectorAll('.tabs button').forEach(b=>{
+    b.setAttribute('aria-selected', b.dataset.dataset===key?'true':'false');
+  });
+  renderMetrics('metrics', data);
+  renderFeatureChart(data);
+  renderModelBars(data);
+  renderPerfTable(data);
+  renderCM(data);
+  renderRQ3(data);
+  renderCalibration(data);
+  renderShapAudit(data);
+  renderInterpretation(key, data);
+}
+
+document.querySelectorAll(".tabs button").forEach(b =>
+  b.addEventListener("click", () => render(b.dataset.dataset)));
+
+render("pilot");
+</script>
 </body>
 </html>
