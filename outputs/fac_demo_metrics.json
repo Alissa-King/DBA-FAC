@@ -9,6 +9,17 @@
   "test_year": 2023,
   "target_recall": 0.8,
   "test_base_rate": 0.282,
+  "smote_used": false,
+  "cv": {
+    "lr_profile": {
+      "mean": 0.5905902582996054,
+      "std": 0.007077064018650148
+    },
+    "gbm_enriched": {
+      "mean": 0.5891802535885162,
+      "std": 0.010177246890457932
+    }
+  },
   "models": [
     {
       "name": "Logistic regression (profile)",
@@ -83,44 +94,146 @@
   },
   "top_features": [
     {
-      "feature": "is_low_risk_auditee",
-      "importance": 0.053829759452972234,
-      "method": "permutation drop in ROC-AUC"
+      "feature": "cat__is_low_risk_auditee_True",
+      "importance": 0.1386853159330218,
+      "method": "mean_abs_shap"
     },
     {
-      "feature": "total_amount_expended",
-      "importance": 0.03331793413169956,
-      "method": "permutation drop in ROC-AUC"
+      "feature": "num__prior_year_any_finding",
+      "importance": 0.134871122178602,
+      "method": "mean_abs_shap"
     },
     {
-      "feature": "prior_year_any_finding",
-      "importance": 0.014083690783105146,
-      "method": "permutation drop in ROC-AUC"
+      "feature": "cat__is_low_risk_auditee_False",
+      "importance": 0.09614461187746476,
+      "method": "mean_abs_shap"
     },
     {
-      "feature": "n_programs",
-      "importance": 0.008821184362591161,
-      "method": "permutation drop in ROC-AUC"
+      "feature": "cat__size_band_1-10M",
+      "importance": 0.0939291244273972,
+      "method": "mean_abs_shap"
     },
     {
-      "feature": "prior_year_findings",
-      "importance": 0.004933320029287452,
-      "method": "permutation drop in ROC-AUC"
+      "feature": "num__n_programs",
+      "importance": 0.08415131358499404,
+      "method": "mean_abs_shap"
     },
     {
-      "feature": "size_band",
-      "importance": 0.0002073548222999294,
-      "method": "permutation drop in ROC-AUC"
+      "feature": "cat__size_band_10-100M",
+      "importance": 0.05447574190112994,
+      "method": "mean_abs_shap"
     },
     {
-      "feature": "entity_type",
-      "importance": -0.00041202799961476133,
-      "method": "permutation drop in ROC-AUC"
+      "feature": "cat__size_band_<1M",
+      "importance": 0.04788062887414011,
+      "method": "mean_abs_shap"
     },
     {
-      "feature": "cognizant_agency",
-      "importance": -0.0018159945499713753,
-      "method": "permutation drop in ROC-AUC"
+      "feature": "num__prior_year_findings",
+      "importance": 0.03244119706568703,
+      "method": "mean_abs_shap"
+    },
+    {
+      "feature": "cat__cognizant_agency_84",
+      "importance": 0.030602077039351236,
+      "method": "mean_abs_shap"
+    },
+    {
+      "feature": "num__total_amount_expended",
+      "importance": 0.028495447521576272,
+      "method": "mean_abs_shap"
+    }
+  ],
+  "shap_per_audit": [
+    {
+      "rank": 1,
+      "risk_score": 0.7742539744463137,
+      "drivers": [
+        {
+          "feature": "cat__size_band_10-100M",
+          "shap": 0.33974275729650016
+        },
+        {
+          "feature": "num__total_amount_expended",
+          "shap": 0.25692541859682966
+        },
+        {
+          "feature": "num__prior_year_any_finding",
+          "shap": 0.25444786460372704
+        }
+      ]
+    },
+    {
+      "rank": 2,
+      "risk_score": 0.7740039403621043,
+      "drivers": [
+        {
+          "feature": "cat__size_band_10-100M",
+          "shap": 0.33974275729650016
+        },
+        {
+          "feature": "num__prior_year_any_finding",
+          "shap": 0.25444786460372704
+        },
+        {
+          "feature": "num__prior_year_findings",
+          "shap": 0.14342326379511938
+        }
+      ]
+    },
+    {
+      "rank": 3,
+      "risk_score": 0.7696884413167397,
+      "drivers": [
+        {
+          "feature": "num__total_amount_expended",
+          "shap": 0.4202975751657794
+        },
+        {
+          "feature": "cat__size_band_10-100M",
+          "shap": 0.33974275729650016
+        },
+        {
+          "feature": "num__prior_year_any_finding",
+          "shap": 0.25444786460372704
+        }
+      ]
+    },
+    {
+      "rank": 4,
+      "risk_score": 0.7665569927945205,
+      "drivers": [
+        {
+          "feature": "num__total_amount_expended",
+          "shap": 0.49818406611990124
+        },
+        {
+          "feature": "cat__size_band_10-100M",
+          "shap": 0.33974275729650016
+        },
+        {
+          "feature": "num__prior_year_any_finding",
+          "shap": 0.25444786460372704
+        }
+      ]
+    },
+    {
+      "rank": 5,
+      "risk_score": 0.757997696415665,
+      "drivers": [
+        {
+          "feature": "cat__size_band_10-100M",
+          "shap": 0.33974275729650016
+        },
+        {
+          "feature": "num__prior_year_any_finding",
+          "shap": 0.25444786460372704
+        },
+        {
+          "feature": "num__total_amount_expended",
+          "shap": 0.20526973356598222
+        }
+      ]
     }
   ],
   "calibration": [

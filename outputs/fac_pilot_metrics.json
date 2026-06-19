@@ -6,6 +6,17 @@
   "test_year": 2023,
   "target_recall": 0.8,
   "test_base_rate": 0.1002,
+  "smote_used": false,
+  "cv": {
+    "lr_profile": {
+      "mean": null,
+      "std": null
+    },
+    "gbm_enriched": {
+      "mean": null,
+      "std": null
+    }
+  },
   "models": [
     {
       "name": "Logistic regression (profile)",
@@ -80,44 +91,146 @@
   },
   "top_features": [
     {
-      "feature": "is_low_risk_auditee",
-      "importance": 0.06436682092583002,
-      "method": "permutation drop in ROC-AUC"
+      "feature": "cat__is_low_risk_auditee_False",
+      "importance": 0.2988751933227759,
+      "method": "mean_abs_shap"
     },
     {
-      "feature": "total_amount_expended",
-      "importance": 0.010649267146968538,
-      "method": "permutation drop in ROC-AUC"
+      "feature": "cat__is_low_risk_auditee_True",
+      "importance": 0.21747708408174427,
+      "method": "mean_abs_shap"
     },
     {
-      "feature": "size_band",
-      "importance": 0.0003169089693473015,
-      "method": "permutation drop in ROC-AUC"
+      "feature": "cat__entity_type_local",
+      "importance": 0.15498492288943072,
+      "method": "mean_abs_shap"
     },
     {
-      "feature": "prior_year_any_finding",
-      "importance": 0.0,
-      "method": "permutation drop in ROC-AUC"
+      "feature": "cat__size_band_1-10M",
+      "importance": 0.1156702420348872,
+      "method": "mean_abs_shap"
     },
     {
-      "feature": "prior_year_findings",
-      "importance": 0.0,
-      "method": "permutation drop in ROC-AUC"
+      "feature": "num__n_programs",
+      "importance": 0.09899495601102411,
+      "method": "mean_abs_shap"
     },
     {
-      "feature": "cognizant_agency",
-      "importance": -0.0001951531478053825,
-      "method": "permutation drop in ROC-AUC"
+      "feature": "cat__size_band_10-100M",
+      "importance": 0.08940307882903768,
+      "method": "mean_abs_shap"
     },
     {
-      "feature": "entity_type",
-      "importance": -0.0008037936130406709,
-      "method": "permutation drop in ROC-AUC"
+      "feature": "cat__size_band_<1M",
+      "importance": 0.062298442250119546,
+      "method": "mean_abs_shap"
     },
     {
-      "feature": "n_programs",
-      "importance": -0.010607203020054592,
-      "method": "permutation drop in ROC-AUC"
+      "feature": "num__prior_year_any_finding",
+      "importance": 0.027531728047364878,
+      "method": "mean_abs_shap"
+    },
+    {
+      "feature": "cat__entity_type_state",
+      "importance": 0.022936725105307327,
+      "method": "mean_abs_shap"
+    },
+    {
+      "feature": "cat__entity_type_higher-ed",
+      "importance": 0.020870217066993275,
+      "method": "mean_abs_shap"
+    }
+  ],
+  "shap_per_audit": [
+    {
+      "rank": 1,
+      "risk_score": 0.999997599519119,
+      "drivers": [
+        {
+          "feature": "num__prior_year_findings",
+          "shap": 10.686464671738067
+        },
+        {
+          "feature": "num__prior_year_any_finding",
+          "shap": 1.9044445756630697
+        },
+        {
+          "feature": "cat__is_low_risk_auditee_False",
+          "shap": 0.4738905154576349
+        }
+      ]
+    },
+    {
+      "rank": 2,
+      "risk_score": 0.9928366306862064,
+      "drivers": [
+        {
+          "feature": "num__n_programs",
+          "shap": 5.176928383954607
+        },
+        {
+          "feature": "cat__size_band_10-100M",
+          "shap": 0.2364535277150046
+        },
+        {
+          "feature": "cat__is_low_risk_auditee_False",
+          "shap": -0.21290733303169107
+        }
+      ]
+    },
+    {
+      "rank": 3,
+      "risk_score": 0.9696120022734318,
+      "drivers": [
+        {
+          "feature": "num__n_programs",
+          "shap": 3.14334259901172
+        },
+        {
+          "feature": "cat__cognizant_agency_93",
+          "shap": 0.3318360344806022
+        },
+        {
+          "feature": "cat__size_band_10-100M",
+          "shap": 0.2364535277150046
+        }
+      ]
+    },
+    {
+      "rank": 4,
+      "risk_score": 0.9589918240162475,
+      "drivers": [
+        {
+          "feature": "num__n_programs",
+          "shap": 3.956776912988875
+        },
+        {
+          "feature": "cat__is_low_risk_auditee_False",
+          "shap": -0.21290733303169107
+        },
+        {
+          "feature": "cat__is_low_risk_auditee_True",
+          "shap": -0.15492241243769825
+        }
+      ]
+    },
+    {
+      "rank": 5,
+      "risk_score": 0.956642650404675,
+      "drivers": [
+        {
+          "feature": "num__n_programs",
+          "shap": 3.8986744619905065
+        },
+        {
+          "feature": "cat__is_low_risk_auditee_False",
+          "shap": -0.21290733303169107
+        },
+        {
+          "feature": "cat__is_low_risk_auditee_True",
+          "shap": -0.15492241243769825
+        }
+      ]
     }
   ],
   "calibration": [
