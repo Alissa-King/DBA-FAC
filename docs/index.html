@@ -1,0 +1,677 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FAC Findings Prediction Dashboard</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #172033;
+      --muted: #5d6a7c;
+      --line: #d8dde7;
+      --panel: #ffffff;
+      --page: #f5f7fb;
+      --navy: #243b63;
+      --teal: #14746f;
+      --gold: #b7791f;
+      --rose: #b83254;
+      --green: #2f855a;
+      --blue-soft: #dfe9f7;
+      --teal-soft: #d8f0ed;
+      --gold-soft: #faedd2;
+      --rose-soft: #f8dfe6;
+      --shadow: 0 12px 30px rgba(23, 32, 51, 0.08);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--page);
+      color: var(--ink);
+      font-family: Arial, Helvetica, sans-serif;
+      line-height: 1.45;
+    }
+
+    header {
+      background: #ffffff;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .shell {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .topbar {
+      min-height: 88px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 28px;
+      line-height: 1.1;
+      letter-spacing: 0;
+    }
+
+    .subtitle {
+      margin: 8px 0 0;
+      color: var(--muted);
+      max-width: 760px;
+      font-size: 15px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      min-height: 32px;
+      padding: 6px 10px;
+      border: 1px solid var(--line);
+      background: var(--blue-soft);
+      color: var(--navy);
+      border-radius: 6px;
+      font-size: 13px;
+      white-space: nowrap;
+    }
+
+    main {
+      padding: 22px 0 40px;
+    }
+
+    .controls {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+
+    .tabs {
+      display: inline-grid;
+      grid-template-columns: repeat(2, minmax(120px, 1fr));
+      border: 1px solid var(--line);
+      background: #ffffff;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .tabs button {
+      min-height: 40px;
+      border: 0;
+      border-right: 1px solid var(--line);
+      background: #ffffff;
+      color: var(--muted);
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .tabs button:last-child {
+      border-right: 0;
+    }
+
+    .tabs button[aria-selected="true"] {
+      background: var(--navy);
+      color: #ffffff;
+    }
+
+    .note {
+      color: var(--muted);
+      font-size: 13px;
+      max-width: 620px;
+      text-align: right;
+    }
+
+    .metric-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+
+    .metric {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      padding: 16px;
+      min-height: 116px;
+    }
+
+    .metric .label {
+      margin: 0 0 10px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0;
+    }
+
+    .metric .value {
+      margin: 0;
+      font-size: 31px;
+      line-height: 1;
+      font-weight: 800;
+    }
+
+    .metric .detail {
+      margin: 9px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.45fr) minmax(320px, 0.85fr);
+      gap: 18px;
+    }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      padding: 18px;
+      min-width: 0;
+    }
+
+    .panel h2 {
+      margin: 0 0 4px;
+      font-size: 18px;
+      letter-spacing: 0;
+    }
+
+    .panel .caption {
+      margin: 0 0 16px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .chart {
+      width: 100%;
+      min-height: 300px;
+    }
+
+    .bar-row {
+      display: grid;
+      grid-template-columns: minmax(150px, 210px) minmax(120px, 1fr) 58px;
+      align-items: center;
+      gap: 10px;
+      min-height: 34px;
+      margin: 8px 0;
+      font-size: 13px;
+    }
+
+    .bar-label {
+      color: var(--ink);
+      overflow-wrap: anywhere;
+    }
+
+    .track {
+      height: 13px;
+      background: #edf1f6;
+      border-radius: 4px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .bar {
+      height: 100%;
+      min-width: 2px;
+      border-radius: 4px;
+      background: var(--teal);
+    }
+
+    .bar.negative {
+      background: var(--rose);
+    }
+
+    .bar-value {
+      text-align: right;
+      color: var(--muted);
+      font-variant-numeric: tabular-nums;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    th, td {
+      padding: 10px 8px;
+      border-bottom: 1px solid var(--line);
+      text-align: right;
+      vertical-align: middle;
+      font-variant-numeric: tabular-nums;
+    }
+
+    th:first-child,
+    td:first-child {
+      text-align: left;
+      font-variant-numeric: normal;
+    }
+
+    th {
+      color: var(--muted);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0;
+    }
+
+    tr.best {
+      background: #f1fbf7;
+    }
+
+    .model-name {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 190px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      min-height: 22px;
+      padding: 3px 7px;
+      border-radius: 6px;
+      background: var(--teal-soft);
+      color: var(--teal);
+      font-size: 11px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .two-up {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin-top: 18px;
+    }
+
+    .matrix {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .cell {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 14px;
+      min-height: 92px;
+      background: #ffffff;
+    }
+
+    .cell.good { background: #e8f5ef; }
+    .cell.warn { background: #fff4dd; }
+    .cell.bad { background: #fde8ee; }
+    .cell.neutral { background: #eef4fb; }
+
+    .cell .count {
+      display: block;
+      font-size: 28px;
+      line-height: 1;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+
+    .cell .name {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .callout {
+      border-left: 4px solid var(--gold);
+      background: var(--gold-soft);
+      padding: 12px 14px;
+      border-radius: 6px;
+      color: #4d3614;
+      font-size: 13px;
+    }
+
+    .footer {
+      margin-top: 18px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    @media (max-width: 900px) {
+      .topbar,
+      .controls {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .note {
+        text-align: left;
+      }
+
+      .metric-grid,
+      .layout,
+      .two-up {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .shell {
+        width: min(100% - 20px, 1180px);
+      }
+
+      h1 {
+        font-size: 23px;
+      }
+
+      .metric .value {
+        font-size: 27px;
+      }
+
+      .bar-row {
+        grid-template-columns: 1fr;
+        gap: 5px;
+      }
+
+      .bar-value {
+        text-align: left;
+      }
+
+      th, td {
+        padding: 8px 5px;
+        font-size: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="shell topbar">
+      <div>
+        <h1>FAC Findings Prediction Dashboard</h1>
+        <p class="subtitle">Committee-review view of model performance, feature importance, and triage outcomes for the DBA Federal Audit Clearinghouse research project.</p>
+      </div>
+      <span class="badge" id="datasetBadge">Pilot FAC run</span>
+    </div>
+  </header>
+
+  <main class="shell">
+    <section class="controls" aria-label="Dataset controls">
+      <div class="tabs" role="tablist" aria-label="Dataset">
+        <button id="pilotTab" type="button" role="tab" aria-selected="true" data-dataset="pilot">FAC Pilot</button>
+        <button id="demoTab" type="button" role="tab" aria-selected="false" data-dataset="demo">Synthetic Demo</button>
+      </div>
+      <p class="note" id="datasetNote">The FAC pilot uses the included 2022-2023 bounded pull. It is a walkthrough artifact, not final dissertation evidence.</p>
+    </section>
+
+    <section class="metric-grid" aria-label="Headline metrics">
+      <article class="metric">
+        <p class="label">Best Model</p>
+        <p class="value" id="bestModelShort">Logistic</p>
+        <p class="detail" id="bestModelFull">Logistic regression (enriched)</p>
+      </article>
+      <article class="metric">
+        <p class="label">ROC-AUC</p>
+        <p class="value" id="aucValue">0.609</p>
+        <p class="detail">ranking performance on held-out year</p>
+      </article>
+      <article class="metric">
+        <p class="label">Recall Target</p>
+        <p class="value" id="recallValue">80.0%</p>
+        <p class="detail" id="precisionDetail">precision 11.4%</p>
+      </article>
+      <article class="metric">
+        <p class="label">Finding Base Rate</p>
+        <p class="value" id="baseRateValue">10.0%</p>
+        <p class="detail" id="splitDetail">train 2022, test 2023</p>
+      </article>
+    </section>
+
+    <section class="layout">
+      <article class="panel">
+        <h2>Model Comparison</h2>
+        <p class="caption">Profile-only models use organization characteristics; enriched models add program count and prior-year history.</p>
+        <div class="chart" id="modelBars" aria-label="Model comparison bar chart"></div>
+      </article>
+
+      <article class="panel">
+        <h2>Feature Importance</h2>
+        <p class="caption">Permutation importance as change in ROC-AUC on the held-out year.</p>
+        <div id="featureBars"></div>
+      </article>
+    </section>
+
+    <section class="two-up">
+      <article class="panel">
+        <h2>Performance Table</h2>
+        <p class="caption">Best model row is highlighted.</p>
+        <div style="overflow-x:auto;">
+          <table>
+            <thead>
+              <tr>
+                <th>Model</th>
+                <th>AUC</th>
+                <th>PR-AUC</th>
+                <th>Recall</th>
+                <th>Precision</th>
+                <th>F1</th>
+                <th>Brier</th>
+              </tr>
+            </thead>
+            <tbody id="modelTable"></tbody>
+          </table>
+        </div>
+      </article>
+
+      <article class="panel">
+        <h2>Triage Confusion Matrix</h2>
+        <p class="caption" id="matrixCaption">Best model at the selected recall target.</p>
+        <div class="matrix">
+          <div class="cell good"><span class="count" id="tpCount">401</span><span class="name">True positives</span></div>
+          <div class="cell warn"><span class="count" id="fpCount">3122</span><span class="name">False positives</span></div>
+          <div class="cell bad"><span class="count" id="fnCount">100</span><span class="name">False negatives</span></div>
+          <div class="cell neutral"><span class="count" id="tnCount">1377</span><span class="name">True negatives</span></div>
+        </div>
+      </article>
+    </section>
+
+    <section class="two-up">
+      <article class="panel">
+        <h2>Research Question Signal</h2>
+        <p class="caption">Does the enriched feature set improve ROC-AUC over the profile baseline?</p>
+        <div id="rq3Bars"></div>
+      </article>
+
+      <article class="panel">
+        <h2>Committee Interpretation</h2>
+        <p class="caption">Short readout for a methods or proposal discussion.</p>
+        <div class="callout" id="interpretation"></div>
+        <p class="footer">The model supports risk triage and research evaluation. It should not replace professional audit judgment.</p>
+      </article>
+    </section>
+  </main>
+
+  <script>
+    const datasets = {
+      pilot: {
+        label: "Pilot FAC run",
+        note: "The FAC pilot uses the included 2022-2023 bounded pull. It is a walkthrough artifact, not final dissertation evidence.",
+        data: {
+          "target": "any_finding",
+          "train_years": [2022],
+          "test_year": 2023,
+          "target_recall": 0.8,
+          "test_base_rate": 0.1002,
+          "models": [
+            {"name":"Logistic regression (profile)","auc":0.6061269326206444,"ap":0.14741387313800866,"brier":0.19080361906922474,"precision":0.1172171879567378,"recall":0.8003992015968064,"f1":0.20448750637429883,"threshold":0.30738697164651313,"tp":401,"fp":3020,"fn":100,"tn":1479},
+            {"name":"Gradient boosting (profile)","auc":0.5963924562521989,"ap":0.14263079599245512,"brier":0.09130292614062087,"precision":0.1106523534269199,"recall":0.8023952095808383,"f1":0.19448476052249636,"threshold":0.07751964395754103,"tp":402,"fp":3231,"fn":99,"tn":1268},
+            {"name":"Logistic regression (enriched)","auc":0.6093607406214466,"ap":0.1478604722806052,"brier":0.19096169647290448,"precision":0.11382344592676696,"recall":0.8003992015968064,"f1":0.1993041749502982,"threshold":0.29787858617022434,"tp":401,"fp":3122,"fn":100,"tn":1377},
+            {"name":"Gradient boosting (enriched)","auc":0.5776941338483291,"ap":0.13381793920697732,"brier":0.09419926074880759,"precision":0.11248246844319776,"recall":0.8003992015968064,"f1":0.19724545007378258,"threshold":0.06947661796920784,"tp":401,"fp":3164,"fn":100,"tn":1335}
+          ],
+          "best_model": {"name":"Logistic regression (enriched)","auc":0.6093607406214466,"ap":0.1478604722806052,"brier":0.19096169647290448,"precision":0.11382344592676696,"recall":0.8003992015968064,"f1":0.1993041749502982,"threshold":0.29787858617022434,"tp":401,"fp":3122,"fn":100,"tn":1377},
+          "top_features": [
+            {"feature":"is_low_risk_auditee","importance":0.06323877029226721},
+            {"feature":"total_amount_expended","importance":0.00885168427315186},
+            {"feature":"size_band","importance":0.0008388701592148134},
+            {"feature":"entity_type","importance":0.0007065497810780086},
+            {"feature":"cognizant_agency","importance":0.0000051575000698939055},
+            {"feature":"prior_year_any_finding","importance":0},
+            {"feature":"prior_year_findings","importance":0},
+            {"feature":"n_programs","importance":-0.012641504055680569}
+          ]
+        }
+      },
+      demo: {
+        label: "Synthetic demo run",
+        note: "The synthetic demo is a reproducible no-key walkthrough that mirrors the analytic schema, useful before a full FAC pull.",
+        data: {
+          "target": "any_finding",
+          "train_years": [2019, 2020, 2021, 2022],
+          "test_year": 2023,
+          "target_recall": 0.8,
+          "test_base_rate": 0.282,
+          "models": [
+            {"name":"Logistic regression (profile)","auc":0.6066567766056224,"ap":0.37053462380160823,"brier":0.2418607591516675,"precision":0.3187433815743029,"recall":0.800531914893617,"f1":0.4559454683160818,"threshold":0.4479703975775082,"tp":903,"fp":1930,"fn":225,"tn":942},
+            {"name":"Gradient boosting (profile)","auc":0.5979038873743061,"ap":0.35428298400807323,"brier":0.19777399984535787,"precision":0.31799016163035837,"recall":0.8023049645390071,"f1":0.4554604932058379,"threshold":0.22971998497912172,"tp":905,"fp":1941,"fn":223,"tn":931},
+            {"name":"Logistic regression (enriched)","auc":0.6310757200853434,"ap":0.40293399460572876,"brier":0.24149215179824027,"precision":0.328125,"recall":0.800531914893617,"f1":0.4654639175257732,"threshold":0.45230506790801184,"tp":903,"fp":1849,"fn":225,"tn":1023},
+            {"name":"Gradient boosting (enriched)","auc":0.6231250864299966,"ap":0.38823065508567234,"brier":0.19468239808162827,"precision":0.321896002829855,"recall":0.8067375886524822,"f1":0.46017699115044247,"threshold":0.22993136302182002,"tp":910,"fp":1917,"fn":218,"tn":955}
+          ],
+          "best_model": {"name":"Logistic regression (enriched)","auc":0.6310757200853434,"ap":0.40293399460572876,"brier":0.24149215179824027,"precision":0.328125,"recall":0.800531914893617,"f1":0.4654639175257732,"threshold":0.45230506790801184,"tp":903,"fp":1849,"fn":225,"tn":1023},
+          "top_features": [
+            {"feature":"is_low_risk_auditee","importance":0.05417407109361108},
+            {"feature":"total_amount_expended","importance":0.03618009819682336},
+            {"feature":"prior_year_any_finding","importance":0.013757398253373243},
+            {"feature":"n_programs","importance":0.010646535731395346},
+            {"feature":"prior_year_findings","importance":0.005910442009176398},
+            {"feature":"size_band","importance":0.00031205473117802696},
+            {"feature":"entity_type","importance":0.00027404868354768963},
+            {"feature":"cognizant_agency","importance":-0.000132770365376636}
+          ]
+        }
+      }
+    };
+
+    const pct = value => `${(value * 100).toFixed(1)}%`;
+    const dec = value => Number(value).toFixed(3);
+    const modelShort = name => name.includes("Logistic") ? "Logistic" : "Boosting";
+    const modelType = name => name.includes("enriched") ? "enriched" : "profile";
+
+    function render(selected) {
+      const entry = datasets[selected];
+      const data = entry.data;
+      const best = data.best_model;
+      document.getElementById("datasetBadge").textContent = entry.label;
+      document.getElementById("datasetNote").textContent = entry.note;
+      document.getElementById("bestModelShort").textContent = modelShort(best.name);
+      document.getElementById("bestModelFull").textContent = best.name;
+      document.getElementById("aucValue").textContent = dec(best.auc);
+      document.getElementById("recallValue").textContent = pct(best.recall);
+      document.getElementById("precisionDetail").textContent = `precision ${pct(best.precision)} at threshold ${dec(best.threshold)}`;
+      document.getElementById("baseRateValue").textContent = pct(data.test_base_rate);
+      document.getElementById("splitDetail").textContent = `train ${data.train_years.join("-")}, test ${data.test_year}`;
+      document.getElementById("tpCount").textContent = best.tp.toLocaleString();
+      document.getElementById("fpCount").textContent = best.fp.toLocaleString();
+      document.getElementById("fnCount").textContent = best.fn.toLocaleString();
+      document.getElementById("tnCount").textContent = best.tn.toLocaleString();
+      document.getElementById("matrixCaption").textContent = `${best.name} at ${pct(data.target_recall)} target recall.`;
+      renderModelBars(data);
+      renderFeatureBars(data);
+      renderTable(data);
+      renderRq3(data);
+      renderInterpretation(selected, data);
+      for (const button of document.querySelectorAll(".tabs button")) {
+        button.setAttribute("aria-selected", String(button.dataset.dataset === selected));
+      }
+    }
+
+    function renderModelBars(data) {
+      const max = Math.max(...data.models.map(m => m.auc));
+      const rows = data.models.map((model) => {
+        const width = Math.max(4, (model.auc / max) * 100);
+        const color = model.name.includes("enriched") ? "var(--teal)" : "var(--navy)";
+        return `<div class="bar-row">
+          <div class="bar-label">${model.name}</div>
+          <div class="track"><div class="bar" style="width:${width}%; background:${color};"></div></div>
+          <div class="bar-value">${dec(model.auc)}</div>
+        </div>`;
+      }).join("");
+      document.getElementById("modelBars").innerHTML = rows;
+    }
+
+    function renderFeatureBars(data) {
+      const values = data.top_features.map(f => Math.abs(f.importance));
+      const max = Math.max(...values, 0.001);
+      const rows = data.top_features.map((feature) => {
+        const width = Math.max(2, Math.abs(feature.importance) / max * 100);
+        const negative = feature.importance < 0;
+        return `<div class="bar-row">
+          <div class="bar-label">${feature.feature}</div>
+          <div class="track"><div class="bar ${negative ? "negative" : ""}" style="width:${width}%;"></div></div>
+          <div class="bar-value">${feature.importance >= 0 ? "+" : ""}${feature.importance.toFixed(4)}</div>
+        </div>`;
+      }).join("");
+      document.getElementById("featureBars").innerHTML = rows;
+    }
+
+    function renderTable(data) {
+      const bestName = data.best_model.name;
+      document.getElementById("modelTable").innerHTML = data.models.map(model => {
+        const isBest = model.name === bestName;
+        return `<tr class="${isBest ? "best" : ""}">
+          <td><span class="model-name">${model.name}${isBest ? '<span class="pill">best</span>' : ""}</span></td>
+          <td>${dec(model.auc)}</td>
+          <td>${dec(model.ap)}</td>
+          <td>${pct(model.recall)}</td>
+          <td>${pct(model.precision)}</td>
+          <td>${dec(model.f1)}</td>
+          <td>${dec(model.brier)}</td>
+        </tr>`;
+      }).join("");
+    }
+
+    function renderRq3(data) {
+      const byType = {};
+      for (const model of data.models) {
+        const family = model.name.includes("Logistic") ? "Logistic regression" : "Gradient boosting";
+        const type = modelType(model.name);
+        byType[family] = byType[family] || {};
+        byType[family][type] = model.auc;
+      }
+      const rows = Object.entries(byType).map(([family, values]) => {
+        const delta = values.enriched - values.profile;
+        const width = Math.min(100, Math.abs(delta) / 0.04 * 100);
+        return `<div class="bar-row">
+          <div class="bar-label">${family}</div>
+          <div class="track"><div class="bar ${delta < 0 ? "negative" : ""}" style="width:${Math.max(2, width)}%;"></div></div>
+          <div class="bar-value">${delta >= 0 ? "+" : ""}${delta.toFixed(3)}</div>
+        </div>`;
+      }).join("");
+      document.getElementById("rq3Bars").innerHTML = rows;
+    }
+
+    function renderInterpretation(selected, data) {
+      const best = data.best_model;
+      const total = best.tp + best.fp + best.fn + best.tn;
+      const flagged = best.tp + best.fp;
+      const missed = best.fn;
+      const label = selected === "pilot" ? "In the bounded FAC pilot" : "In the synthetic demonstration";
+      document.getElementById("interpretation").innerHTML =
+        `${label}, the strongest model is <strong>${best.name}</strong>. It reaches <strong>${pct(best.recall)}</strong> recall on the held-out ${data.test_year} year, while flagging <strong>${flagged.toLocaleString()}</strong> of ${total.toLocaleString()} audits for review and missing <strong>${missed.toLocaleString()}</strong> findings. The strongest feature signal is <strong>${data.top_features[0].feature}</strong>.`;
+    }
+
+    for (const button of document.querySelectorAll(".tabs button")) {
+      button.addEventListener("click", () => render(button.dataset.dataset));
+    }
+
+    render("pilot");
+  </script>
+</body>
+</html>

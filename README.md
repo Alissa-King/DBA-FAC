@@ -3,6 +3,17 @@
 Committee-review package for a DBA research project using Federal Audit
 Clearinghouse (FAC) Single Audit data.
 
+## Dashboard
+
+The project includes a visual dashboard at `docs/index.html`. After GitHub
+Pages publishes, it will be available at:
+
+https://alissa-king.github.io/DBA-FAC/
+
+The dashboard shows headline metrics, model comparison, feature importance,
+the triage confusion matrix, and the profile-versus-enriched research question
+comparison.
+
 ## Contents
 
 - `outputs/fac_ingest_committee.py` pulls FAC API endpoint data, stages raw
