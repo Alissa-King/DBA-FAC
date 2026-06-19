@@ -9,16 +9,27 @@
   "test_year": 2023,
   "target_recall": 0.8,
   "test_base_rate": 0.282,
+  "smote_used": false,
+  "cv": {
+    "lr_profile": {
+      "mean": 0.5905902582996054,
+      "std": 0.007077064018650148
+    },
+    "gbm_enriched": {
+      "mean": 0.5891802535885162,
+      "std": 0.010177246890457932
+    }
+  },
   "models": [
     {
       "name": "Logistic regression (profile)",
       "auc": 0.6066567766056224,
       "ap": 0.37053462380160823,
-      "brier": 0.2418607591516675,
+      "brier": 0.24186075915166375,
       "precision": 0.3187433815743029,
       "recall": 0.800531914893617,
       "f1": 0.4559454683160818,
-      "threshold": 0.4479703975775082,
+      "threshold": 0.4479703975774966,
       "tp": 903,
       "fp": 1930,
       "fn": 225,
@@ -26,27 +37,27 @@
     },
     {
       "name": "Gradient boosting (profile)",
-      "auc": 0.5979038873743061,
-      "ap": 0.35428298400807323,
-      "brier": 0.19777399984535787,
-      "precision": 0.31799016163035837,
-      "recall": 0.8023049645390071,
-      "f1": 0.4554604932058379,
-      "threshold": 0.22971998497912172,
-      "tp": 905,
-      "fp": 1941,
-      "fn": 223,
-      "tn": 931
+      "auc": 0.5992639251071732,
+      "ap": 0.35431375183225394,
+      "brier": 0.19769642907478752,
+      "precision": 0.3182939725061685,
+      "recall": 0.800531914893617,
+      "f1": 0.4554854981084489,
+      "threshold": 0.2317117035257609,
+      "tp": 903,
+      "fp": 1934,
+      "fn": 225,
+      "tn": 938
     },
     {
       "name": "Logistic regression (enriched)",
       "auc": 0.6310757200853434,
       "ap": 0.40293399460572876,
-      "brier": 0.24149215179824027,
+      "brier": 0.24149215179823308,
       "precision": 0.328125,
       "recall": 0.800531914893617,
       "f1": 0.4654639175257732,
-      "threshold": 0.45230506790801184,
+      "threshold": 0.4523050679079784,
       "tp": 903,
       "fp": 1849,
       "fn": 225,
@@ -54,28 +65,28 @@
     },
     {
       "name": "Gradient boosting (enriched)",
-      "auc": 0.6231250864299966,
-      "ap": 0.38823065508567234,
-      "brier": 0.19468239808162827,
-      "precision": 0.321896002829855,
-      "recall": 0.8067375886524822,
-      "f1": 0.46017699115044247,
-      "threshold": 0.22993136302182002,
-      "tp": 910,
-      "fp": 1917,
-      "fn": 218,
-      "tn": 955
+      "auc": 0.6196333145656769,
+      "ap": 0.3841471697386253,
+      "brier": 0.19511232887327332,
+      "precision": 0.3188865398167724,
+      "recall": 0.8023049645390071,
+      "f1": 0.4563792233988906,
+      "threshold": 0.22935858720853936,
+      "tp": 905,
+      "fp": 1933,
+      "fn": 223,
+      "tn": 939
     }
   ],
   "best_model": {
     "name": "Logistic regression (enriched)",
     "auc": 0.6310757200853434,
     "ap": 0.40293399460572876,
-    "brier": 0.24149215179824027,
+    "brier": 0.24149215179823308,
     "precision": 0.328125,
     "recall": 0.800531914893617,
     "f1": 0.4654639175257732,
-    "threshold": 0.45230506790801184,
+    "threshold": 0.4523050679079784,
     "tp": 903,
     "fp": 1849,
     "fn": 225,
@@ -83,66 +94,174 @@
   },
   "top_features": [
     {
-      "feature": "is_low_risk_auditee",
-      "importance": 0.05417407109361108,
-      "method": "permutation drop in ROC-AUC"
+      "feature": "cat__is_low_risk_auditee_True",
+      "importance": 0.1386853159330218,
+      "method": "mean_abs_shap"
     },
     {
-      "feature": "total_amount_expended",
-      "importance": 0.03618009819682336,
-      "method": "permutation drop in ROC-AUC"
+      "feature": "num__prior_year_any_finding",
+      "importance": 0.134871122178602,
+      "method": "mean_abs_shap"
     },
     {
-      "feature": "prior_year_any_finding",
-      "importance": 0.013757398253373243,
-      "method": "permutation drop in ROC-AUC"
+      "feature": "cat__is_low_risk_auditee_False",
+      "importance": 0.09614461187746476,
+      "method": "mean_abs_shap"
     },
     {
-      "feature": "n_programs",
-      "importance": 0.010646535731395346,
-      "method": "permutation drop in ROC-AUC"
+      "feature": "cat__size_band_1-10M",
+      "importance": 0.0939291244273972,
+      "method": "mean_abs_shap"
     },
     {
-      "feature": "prior_year_findings",
-      "importance": 0.005910442009176398,
-      "method": "permutation drop in ROC-AUC"
+      "feature": "num__n_programs",
+      "importance": 0.08415131358499404,
+      "method": "mean_abs_shap"
     },
     {
-      "feature": "size_band",
-      "importance": 0.00031205473117802696,
-      "method": "permutation drop in ROC-AUC"
+      "feature": "cat__size_band_10-100M",
+      "importance": 0.05447574190112994,
+      "method": "mean_abs_shap"
     },
     {
-      "feature": "entity_type",
-      "importance": 0.00027404868354768963,
-      "method": "permutation drop in ROC-AUC"
+      "feature": "cat__size_band_<1M",
+      "importance": 0.04788062887414011,
+      "method": "mean_abs_shap"
     },
     {
-      "feature": "cognizant_agency",
-      "importance": -0.000132770365376636,
-      "method": "permutation drop in ROC-AUC"
+      "feature": "num__prior_year_findings",
+      "importance": 0.03244119706568703,
+      "method": "mean_abs_shap"
+    },
+    {
+      "feature": "cat__cognizant_agency_84",
+      "importance": 0.030602077039351236,
+      "method": "mean_abs_shap"
+    },
+    {
+      "feature": "num__total_amount_expended",
+      "importance": 0.028495447521576272,
+      "method": "mean_abs_shap"
+    }
+  ],
+  "shap_per_audit": [
+    {
+      "rank": 1,
+      "risk_score": 0.7742539744463137,
+      "drivers": [
+        {
+          "feature": "cat__size_band_10-100M",
+          "shap": 0.33974275729650016
+        },
+        {
+          "feature": "num__total_amount_expended",
+          "shap": 0.25692541859682966
+        },
+        {
+          "feature": "num__prior_year_any_finding",
+          "shap": 0.25444786460372704
+        }
+      ]
+    },
+    {
+      "rank": 2,
+      "risk_score": 0.7740039403621043,
+      "drivers": [
+        {
+          "feature": "cat__size_band_10-100M",
+          "shap": 0.33974275729650016
+        },
+        {
+          "feature": "num__prior_year_any_finding",
+          "shap": 0.25444786460372704
+        },
+        {
+          "feature": "num__prior_year_findings",
+          "shap": 0.14342326379511938
+        }
+      ]
+    },
+    {
+      "rank": 3,
+      "risk_score": 0.7696884413167397,
+      "drivers": [
+        {
+          "feature": "num__total_amount_expended",
+          "shap": 0.4202975751657794
+        },
+        {
+          "feature": "cat__size_band_10-100M",
+          "shap": 0.33974275729650016
+        },
+        {
+          "feature": "num__prior_year_any_finding",
+          "shap": 0.25444786460372704
+        }
+      ]
+    },
+    {
+      "rank": 4,
+      "risk_score": 0.7665569927945205,
+      "drivers": [
+        {
+          "feature": "num__total_amount_expended",
+          "shap": 0.49818406611990124
+        },
+        {
+          "feature": "cat__size_band_10-100M",
+          "shap": 0.33974275729650016
+        },
+        {
+          "feature": "num__prior_year_any_finding",
+          "shap": 0.25444786460372704
+        }
+      ]
+    },
+    {
+      "rank": 5,
+      "risk_score": 0.757997696415665,
+      "drivers": [
+        {
+          "feature": "cat__size_band_10-100M",
+          "shap": 0.33974275729650016
+        },
+        {
+          "feature": "num__prior_year_any_finding",
+          "shap": 0.25444786460372704
+        },
+        {
+          "feature": "num__total_amount_expended",
+          "shap": 0.20526973356598222
+        }
+      ]
+    }
+  ],
+  "calibration": [
+    {
+      "mean_pred": 0.37134529770347074,
+      "frac_pos": 0.1625
+    },
+    {
+      "mean_pred": 0.449228251231626,
+      "frac_pos": 0.22625
+    },
+    {
+      "mean_pred": 0.5024753457904725,
+      "frac_pos": 0.27
+    },
+    {
+      "mean_pred": 0.5513290745590426,
+      "frac_pos": 0.32625
+    },
+    {
+      "mean_pred": 0.6324340307103266,
+      "frac_pos": 0.425
     }
   ],
   "feature_sets": {
-    "profile_numeric": [
-      "total_amount_expended"
-    ],
-    "profile_categorical": [
-      "entity_type",
-      "size_band",
-      "is_low_risk_auditee"
-    ],
-    "enriched_numeric": [
-      "total_amount_expended",
-      "n_programs",
-      "prior_year_findings",
-      "prior_year_any_finding"
-    ],
-    "enriched_categorical": [
-      "entity_type",
-      "size_band",
-      "is_low_risk_auditee",
-      "cognizant_agency"
-    ]
+    "profile_numeric": ["total_amount_expended"],
+    "profile_categorical": ["entity_type", "size_band", "is_low_risk_auditee"],
+    "enriched_numeric": ["total_amount_expended", "n_programs", "prior_year_findings", "prior_year_any_finding"],
+    "enriched_categorical": ["entity_type", "size_band", "is_low_risk_auditee", "cognizant_agency"]
   }
 }
