@@ -14,11 +14,11 @@
       "name": "Logistic regression (profile)",
       "auc": 0.6066567766056224,
       "ap": 0.37053462380160823,
-      "brier": 0.2418607591516675,
+      "brier": 0.24186075915166375,
       "precision": 0.3187433815743029,
       "recall": 0.800531914893617,
       "f1": 0.4559454683160818,
-      "threshold": 0.4479703975775082,
+      "threshold": 0.4479703975774966,
       "tp": 903,
       "fp": 1930,
       "fn": 225,
@@ -26,27 +26,27 @@
     },
     {
       "name": "Gradient boosting (profile)",
-      "auc": 0.5979038873743061,
-      "ap": 0.35428298400807323,
-      "brier": 0.19777399984535787,
-      "precision": 0.31799016163035837,
-      "recall": 0.8023049645390071,
-      "f1": 0.4554604932058379,
-      "threshold": 0.22971998497912172,
-      "tp": 905,
-      "fp": 1941,
-      "fn": 223,
-      "tn": 931
+      "auc": 0.5992639251071732,
+      "ap": 0.35431375183225394,
+      "brier": 0.19769642907478752,
+      "precision": 0.3182939725061685,
+      "recall": 0.800531914893617,
+      "f1": 0.4554854981084489,
+      "threshold": 0.2317117035257609,
+      "tp": 903,
+      "fp": 1934,
+      "fn": 225,
+      "tn": 938
     },
     {
       "name": "Logistic regression (enriched)",
       "auc": 0.6310757200853434,
       "ap": 0.40293399460572876,
-      "brier": 0.24149215179824027,
+      "brier": 0.24149215179823308,
       "precision": 0.328125,
       "recall": 0.800531914893617,
       "f1": 0.4654639175257732,
-      "threshold": 0.45230506790801184,
+      "threshold": 0.4523050679079784,
       "tp": 903,
       "fp": 1849,
       "fn": 225,
@@ -54,28 +54,28 @@
     },
     {
       "name": "Gradient boosting (enriched)",
-      "auc": 0.6231250864299966,
-      "ap": 0.38823065508567234,
-      "brier": 0.19468239808162827,
-      "precision": 0.321896002829855,
-      "recall": 0.8067375886524822,
-      "f1": 0.46017699115044247,
-      "threshold": 0.22993136302182002,
-      "tp": 910,
-      "fp": 1917,
-      "fn": 218,
-      "tn": 955
+      "auc": 0.6196333145656769,
+      "ap": 0.3841471697386253,
+      "brier": 0.19511232887327332,
+      "precision": 0.3188865398167724,
+      "recall": 0.8023049645390071,
+      "f1": 0.4563792233988906,
+      "threshold": 0.22935858720853936,
+      "tp": 905,
+      "fp": 1933,
+      "fn": 223,
+      "tn": 939
     }
   ],
   "best_model": {
     "name": "Logistic regression (enriched)",
     "auc": 0.6310757200853434,
     "ap": 0.40293399460572876,
-    "brier": 0.24149215179824027,
+    "brier": 0.24149215179823308,
     "precision": 0.328125,
     "recall": 0.800531914893617,
     "f1": 0.4654639175257732,
-    "threshold": 0.45230506790801184,
+    "threshold": 0.4523050679079784,
     "tp": 903,
     "fp": 1849,
     "fn": 225,
@@ -84,43 +84,65 @@
   "top_features": [
     {
       "feature": "is_low_risk_auditee",
-      "importance": 0.05417407109361108,
+      "importance": 0.053829759452972234,
       "method": "permutation drop in ROC-AUC"
     },
     {
       "feature": "total_amount_expended",
-      "importance": 0.03618009819682336,
+      "importance": 0.03331793413169956,
       "method": "permutation drop in ROC-AUC"
     },
     {
       "feature": "prior_year_any_finding",
-      "importance": 0.013757398253373243,
+      "importance": 0.014083690783105146,
       "method": "permutation drop in ROC-AUC"
     },
     {
       "feature": "n_programs",
-      "importance": 0.010646535731395346,
+      "importance": 0.008821184362591161,
       "method": "permutation drop in ROC-AUC"
     },
     {
       "feature": "prior_year_findings",
-      "importance": 0.005910442009176398,
+      "importance": 0.004933320029287452,
       "method": "permutation drop in ROC-AUC"
     },
     {
       "feature": "size_band",
-      "importance": 0.00031205473117802696,
+      "importance": 0.0002073548222999294,
       "method": "permutation drop in ROC-AUC"
     },
     {
       "feature": "entity_type",
-      "importance": 0.00027404868354768963,
+      "importance": -0.00041202799961476133,
       "method": "permutation drop in ROC-AUC"
     },
     {
       "feature": "cognizant_agency",
-      "importance": -0.000132770365376636,
+      "importance": -0.0018159945499713753,
       "method": "permutation drop in ROC-AUC"
+    }
+  ],
+  "calibration": [
+    {
+      "mean_pred": 0.37134529770347074,
+      "frac_pos": 0.1625
+    },
+    {
+      "mean_pred": 0.449228251231626,
+      "frac_pos": 0.22625
+    },
+    {
+      "mean_pred": 0.5024753457904725,
+      "frac_pos": 0.27
+    },
+    {
+      "mean_pred": 0.5513290745590426,
+      "frac_pos": 0.32625
+    },
+    {
+      "mean_pred": 0.6324340307103266,
+      "frac_pos": 0.425
     }
   ],
   "feature_sets": {
