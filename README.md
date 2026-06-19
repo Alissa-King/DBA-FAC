@@ -47,3 +47,17 @@ python outputs\fac_model_committee.py --input outputs\fac_pilot\analytic_audit_l
 The pilot data are for committee walkthrough and code verification, not final
 dissertation evidence. The full study should remove `--max-pages` and use the
 approved year range.
+
+## Run Online
+
+Use the GitHub Actions workflow for a no-install committee demo:
+
+1. Open the repository on GitHub.
+2. Select the **Actions** tab.
+3. Select **FAC Model Demo**.
+4. Click **Run workflow**.
+5. Open the completed run and download the `fac-model-metrics` artifact.
+
+The workflow runs both the synthetic demo and the included FAC pilot model. It
+does not require an FAC API key because it uses the pilot data already committed
+to the repository.

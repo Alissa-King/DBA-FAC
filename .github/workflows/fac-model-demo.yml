@@ -1,0 +1,51 @@
+name: FAC Model Demo
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  run-model:
+    name: Run demo and pilot models
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r outputs/requirements_committee.txt
+
+      - name: Syntax check
+        run: |
+          python -m py_compile outputs/fac_ingest_committee.py outputs/fac_model_committee.py
+
+      - name: Run synthetic demo model
+        run: |
+          mkdir -p run_outputs
+          python outputs/fac_model_committee.py \
+            --demo \
+            --results-out run_outputs/fac_demo_metrics.json
+
+      - name: Run included FAC pilot model
+        run: |
+          python outputs/fac_model_committee.py \
+            --input outputs/fac_pilot/analytic_audit_level.parquet \
+            --results-out run_outputs/fac_pilot_metrics.json
+
+      - name: Upload model metrics
+        uses: actions/upload-artifact@v4
+        with:
+          name: fac-model-metrics
+          path: run_outputs/*.json
